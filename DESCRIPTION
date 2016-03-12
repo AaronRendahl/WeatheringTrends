@@ -1,8 +1,10 @@
 Package: WeatheringTrends
-Title: What the Package Does (one line, title case)
-Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-Depends: R (>= 3.2.4)
-License: What license is it under?
+Title: Fits Weathering Trends
+Version: 0.0.1
+Authors@R: person("Aaron", "Rendahl", email = "rend0020@umn.edu", role = c("aut", "cre"))
+Description: Fits Weathering Trends.
+Depends:
+    R (>= 3.2.4)
+License: GPL
 LazyData: true
+RoxygenNote: 5.0.1
