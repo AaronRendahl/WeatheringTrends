@@ -4,12 +4,17 @@
 \alias{fitted.ElementRatio}
 \title{get fitted values for an ElementRatio object}
 \usage{
-\method{fitted}{ElementRatio}(object, depth = object$data$depth)
+\method{fitted}{ElementRatio}(object, depth = object$data$depth, ...)
 }
 \arguments{
 \item{object}{the object}
 
 \item{depth}{the depth to get the fitted values for}
+
+\item{...}{unused}
+}
+\value{
+a data frame with the estimate and sd for each depth
 }
 \description{
 get fitted values for an ElementRatio object

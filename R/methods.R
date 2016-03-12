@@ -3,9 +3,10 @@
 #' get fitted values for an ElementRatio object
 #' @param object the object
 #' @param depth the depth to get the fitted values for
-#' @output a data frame with the estimate and sd for each depth
+#' @param ... unused
+#' @return a data frame with the estimate and sd for each depth
 #' @export
-fitted.ElementRatio <- function(object, depth=object$data$depth) {
+fitted.ElementRatio <- function(object, depth=object$data$depth, ...) {
   do.call("getmsd", c(list(x=depth), as.list(object$par)))
 }
 
@@ -15,7 +16,7 @@ fitted.ElementRatio <- function(object, depth=object$data$depth) {
 #' @param x object
 #' @param sd how many sd out to put the lines
 #' @param main title of plot
-#' @param to put on log scale or not
+#' @param log to put on log scale or not
 #' @param ylab y label
 #' @param ... additional parameters sent to plot
 #' @return NULL

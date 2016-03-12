@@ -14,11 +14,11 @@
 
 \item{main}{title of plot}
 
+\item{log}{to put on log scale or not}
+
 \item{ylab}{y label}
 
 \item{...}{additional parameters sent to plot}
-
-\item{to}{put on log scale or not}
 }
 \description{
 plot an ElementRatio object
