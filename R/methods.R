@@ -1,7 +1,25 @@
-fitted.ElementRatio <- function(x, depth=x$data$depth) {
-  do.call("getmsd", c(list(x=depth), as.list(x$par)))
+#' get fitted values for an ElementRatio object
+#'
+#' get fitted values for an ElementRatio object
+#' @param object the object
+#' @param depth the depth to get the fitted values for
+#' @output a data frame with the estimate and sd for each depth
+#' @export
+fitted.ElementRatio <- function(object, depth=object$data$depth) {
+  do.call("getmsd", c(list(x=depth), as.list(object$par)))
 }
 
+#' plot an ElementRatio object
+#'
+#' plot an ElementRatio object
+#' @param x object
+#' @param sd how many sd out to put the lines
+#' @param main title of plot
+#' @param to put on log scale or not
+#' @param ylab y label
+#' @param ... additional parameters sent to plot
+#' @return NULL
+#' @export
 plot.ElementRatio <- function(x, sd=1, main=paste0(x$mobile, "/", x$immobile), log=FALSE,
                       ylab=if(log) "logratio" else "ratio", ...) {
   depth <- x$data$depth
