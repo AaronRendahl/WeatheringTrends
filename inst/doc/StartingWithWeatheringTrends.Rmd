@@ -1,0 +1,47 @@
+<!-- rmarkdown v1 -->
+---
+title: "Starting With Weathering Trends"
+author: "Aaron Rendahl"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Starting With Weathering Trends}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## A basic example
+
+```{r}
+library(WeatheringTrends)
+data(welldata)
+fit1 <- FitElementRatio("Sr", "Zr", "depth.top", welldata)
+fit1$par
+fit1$output
+plot(fit1)
+```
+
+```{r}
+fit1 <- profile(fit1, "x2")
+fit1$confint
+```
+
+## Works for incorporation too
+
+Fake this by simply turning around mobile and immobile.
+```{r}
+fit2 <- FitElementRatio("Zr", "Sr", "depth.top", welldata)
+fit2$par
+fit2$output
+plot(fit2)
+```
+
+## Can fit multiple fits at once
+
+```{r, fig.show='hold'}
+fits <- FitElementRatios(c("Sr", "Pb"), c("Zr", "V"), "depth.top", welldata)
+par(mfrow=c(2,2))
+for(i in 1:2) for(j in 1:2) plot(fits[[i]][[j]])
+```
+
+
