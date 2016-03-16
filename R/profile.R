@@ -5,15 +5,15 @@
 #'
 #' @param fitted the ElementRatio object
 #' @param variable the variable to profile over
-#' @param alpha the desired confidence, in terms of (1-alpha) percent
+#' @param confidence the desired confidence level
 #' @param tolerance how tight to profile it
 #' @param maxiter maximum number of iterations
 #' @param ... unused
 #' @return the original object with elements profile and confint added
 #' @export
-profile.ElementRatio <- function(fitted, variable, alpha=0.05, tolerance=0.1, maxiter=10, ...) {
+profile.ElementRatio <- function(fitted, variable, confidence=0.95, tolerance=0.1, maxiter=10, ...) {
   x <- fitted
-  k <- qchisq(1-alpha, 1)
+  k <- qchisq(confidence, 1)
   if(is.null(x$profile)) x$profile <- list()
   if(variable=="d") {
     a <- min(x$data$logratio)
