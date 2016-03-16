@@ -6,11 +6,12 @@
 \usage{
 ControlElementRatioFit(depth, logratio, p1.start = 0.2, p2.start = 0.5,
   c.start = diff(range(logratio))/2, x2.start = p2.start * max(depth),
-  par.start, lower = c(p1 = 0, x2 = 0.05 * max(depth), c = 0, sd1 = 0.1 *
-  sd(logratio), sd2 = 0.1 * sd(logratio), d = min(logratio)), upper = c(p1 =
-  0.95, x2 = max(depth), c = diff(range(logratio)), sd1 = sd(range(logratio)),
-  sd2 = sd(range(logratio)), d = max(logratio)), parscale = c(p1 = 1, x2 =
-  max(depth), c = 1, sd1 = 1, sd2 = 1, d = 1))
+  par.start, lower = c(p1 = 0, x2 = 0.05 * max(depth), c =
+  -diff(range(logratio)), sd1 = 0.1 * sd(logratio), sd2 = 0.1 * sd(logratio), d
+  = min(logratio)), upper = c(p1 = 0.95, x2 = max(depth), c =
+  diff(range(logratio)), sd1 = sd(range(logratio)), sd2 = sd(range(logratio)), d
+  = max(logratio)), parscale = c(p1 = 1, x2 = max(depth), c = 1, sd1 = 1, sd2
+  = 1, d = 1))
 }
 \arguments{
 \item{depth}{depth}
