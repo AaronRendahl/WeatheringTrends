@@ -31,4 +31,14 @@ plot.ElementRatio <- function(x, sd=1, main=paste0(x$mobile, "/", x$immobile), l
   lines(xx, tolog(x.fit$estimate))
   lines(xx, tolog(x.fit$estimate + sd*x.fit$sd), lty=2)
   lines(xx, tolog(x.fit$estimate - sd*x.fit$sd), lty=2)
+  if(!is.null(x$confint)) {
+    if("x2" %in% rownames(x$confint)) {
+      ci <- x$confint["x2",]
+      d0 <- diff(tolog(range(x$data$logratio)))*0.01
+      x0 <- x$output[["depth2"]]
+      y0 <- tolog(x$output[["logratio2"]])
+      len <- diff(grconvertY(c(0, 1), "npc", "inches"))* 0.03
+      arrows(x0=ci[1], x1=ci[2], y0=y0 + d0, code=3, angle=90, length=len, lty=3)
+    }
+  }
 }
