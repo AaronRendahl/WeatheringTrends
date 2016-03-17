@@ -4,10 +4,14 @@
 \alias{BootElementRatio}
 \title{Parametric Bootstrap of ElementRatio object}
 \usage{
-BootElementRatio(x)
+BootElementRatio(x, hessian = !is.null(x$optim$hessian), ...)
 }
 \arguments{
 \item{x}{the ElementRatio object}
+
+\item{hessian}{get the hessian from the optimization}
+
+\item{...}{additional parameters sent to \code{ControlElementRatioFit}}
 }
 \value{
 a new ElementRatio object, with bootstrapped data
