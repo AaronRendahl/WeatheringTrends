@@ -17,7 +17,7 @@ fit2$par
 fit2$output
 plot(fit2)
 
-## ---- fig.show='hold'----------------------------------------------------
+## ---- fig.show='hold', fig.width=8, fig.height=8-------------------------
 fits <- FitElementRatios(c("Sr", "Pb"), c("Zr", "V"), "depth.top", welldata)
 par(mfrow=c(2,2))
 for(i in 1:2) for(j in 1:2) plot(fits[[i]][[j]])

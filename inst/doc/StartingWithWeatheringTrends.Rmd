@@ -1,9 +1,11 @@
-<!-- rmarkdown v1 -->
 ---
 title: "Starting With Weathering Trends"
 author: "Aaron Rendahl"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    fig_width: 6
+    fig_height: 6
 vignette: >
   %\VignetteIndexEntry{Starting With Weathering Trends}
   %\VignetteEngine{knitr::rmarkdown}
@@ -39,7 +41,7 @@ plot(fit2)
 
 ## Can fit multiple fits at once
 
-```{r, fig.show='hold'}
+```{r, fig.show='hold', fig.width=8, fig.height=8}
 fits <- FitElementRatios(c("Sr", "Pb"), c("Zr", "V"), "depth.top", welldata)
 par(mfrow=c(2,2))
 for(i in 1:2) for(j in 1:2) plot(fits[[i]][[j]])
