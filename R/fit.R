@@ -14,12 +14,13 @@ negloglik <- function(par, depth, logratio, ...) {
 #' @param data the data set where these variables are found
 #' @param min.mobile will set zero mobile values to this value (default is the smallest value)
 #' @param verbose set verbosity
+#' @param hessian get the hessian from the optimization
 #' @param ... additional parameters sent to \code{ControlElementRatioFit}
 #' @return an ElementRatio object, with the output from the optimization and the optimal parameters, presented both in the
 #' @export
 FitElementRatio <- function(mobile, immobile, depth, data,
                    min.mobile,
-                   verbose=TRUE, ...) {
+                   verbose=TRUE, hessian=FALSE, ...) {
   name.mobile <- mobile
   name.immobile <- immobile
   if(verbose) message("fitting ", paste0(name.mobile, "/", name.immobile))
@@ -45,19 +46,17 @@ FitElementRatio <- function(mobile, immobile, depth, data,
   control <- ControlElementRatioFit(depth=depth, logratio=logratio, ...)
   data <- data.frame(depth=depth, logratio=logratio)
   out <- list(data=data, control=control, mobile=name.mobile, immobile=name.immobile)
-  refit(out)
+  refit(out, hessian=hessian)
 }
 
-
-
-refit <- function(x, ...) {
+refit <- function(x, hessian=FALSE, ...) {
   x$fixed <- list(...)
   n <- setdiff(rownames(x$control), names(x$fixed))
   n <- setdiff(n, "d")
   control <- x$control[n, ]
   par.start <- setNames(control$par.start, n)
   opt <- optim(par.start, negloglik, depth=x$data$depth, logratio=x$data$logratio, ...,
-               hessian=FALSE, method="L-BFGS-B",
+               hessian=hessian, method="L-BFGS-B",
                lower=control$lower, upper=control$upper,
                control=list(parscale=control$parscale))
   x$optim <- opt

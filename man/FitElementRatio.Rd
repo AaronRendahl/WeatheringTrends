@@ -5,7 +5,7 @@
 \title{Fit the element ratio}
 \usage{
 FitElementRatio(mobile, immobile, depth, data, min.mobile, verbose = TRUE,
-  ...)
+  hessian = FALSE, ...)
 }
 \arguments{
 \item{mobile}{the name of the mobile variable}
@@ -19,6 +19,8 @@ FitElementRatio(mobile, immobile, depth, data, min.mobile, verbose = TRUE,
 \item{min.mobile}{will set zero mobile values to this value (default is the smallest value)}
 
 \item{verbose}{set verbosity}
+
+\item{hessian}{get the hessian from the optimization}
 
 \item{...}{additional parameters sent to \code{ControlElementRatioFit}}
 }
