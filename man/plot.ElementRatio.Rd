@@ -5,7 +5,8 @@
 \title{plot an ElementRatio object}
 \usage{
 \method{plot}{ElementRatio}(x, sd = 1, main = paste0(x$mobile, "/",
-  x$immobile), log = FALSE, ylab = if (log) "logratio" else "ratio", ...)
+  x$immobile), rotate = TRUE, log = FALSE, ci.lty = 3,
+  responselabel = if (log) "logratio" else "ratio", ...)
 }
 \arguments{
 \item{x}{object}
@@ -14,9 +15,13 @@
 
 \item{main}{title of plot}
 
+\item{rotate}{should the plot be rotated to have depth on vertical axis}
+
 \item{log}{to put on log scale or not}
 
-\item{ylab}{y label}
+\item{ci.lty}{line type of confidence intervals}
+
+\item{responselabel}{label of response axis}
 
 \item{...}{additional parameters sent to plot}
 }
