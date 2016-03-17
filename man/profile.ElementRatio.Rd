@@ -4,7 +4,7 @@
 \alias{profile.ElementRatio}
 \title{profile an ElementRatio object}
 \usage{
-\method{profile}{ElementRatio}(fitted, variable, alpha = 0.05,
+\method{profile}{ElementRatio}(fitted, variable, confidence = 0.95,
   tolerance = 0.1, maxiter = 10, ...)
 }
 \arguments{
@@ -12,7 +12,7 @@
 
 \item{variable}{the variable to profile over}
 
-\item{alpha}{the desired confidence, in terms of (1-alpha) percent}
+\item{confidence}{the desired confidence level}
 
 \item{tolerance}{how tight to profile it}
 
