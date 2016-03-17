@@ -19,9 +19,9 @@ with(fit, {
   lines(x, upr, lty=2)
   ll <- 0.1
   arrows(x0=d+1,y0=r,y1=r+s2,code=3,len=ll)
-  text(d+1, r+s2/2, "s2", pos=2)  
+  text(d+1, r+s2/2, expression(s[2]), pos=2)  
   arrows(x0=p*d-1,y0=r-c,y1=r-c+s1,code=3,len=ll)
-  text(p*d-1, r-c+s1/2, "s1", pos=2)
+  text(p*d-1, r-c+s1/2, expression(s[1]), pos=2)
   axis(1, c(p*d, d), labels=c("pd", "d"), las=1)
   axis(2, c(r-c, r), labels=c("r-c", "r"), las=1)
 })
