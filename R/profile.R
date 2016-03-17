@@ -26,7 +26,7 @@ profile.ElementRatio <- function(fitted, variable, confidence=0.95, tolerance=0.
   mm <- x$opt$value
   ## try going up
   ## message("up")
-  mx <- do.call("refit", c(list(x), setNames(list(b), variable)))$optim$value - mm
+  mx <- 2*(do.call("refit", c(list(x), setNames(list(b), variable)))$optim$value - mm)
   out <- rbind(out, c(1, b, mx))
   if(mx < k) { ## if not enough change at boundary don't bother looking
     upper <- b
@@ -41,7 +41,7 @@ profile.ElementRatio <- function(fitted, variable, confidence=0.95, tolerance=0.
       iter <- iter + 1
       ## message(iter)
       px <- (p0 + p1)/2
-      mx <- do.call("refit", c(list(x), setNames(list(px), variable)))$optim$value - mm
+      mx <- 2*(do.call("refit", c(list(x), setNames(list(px), variable)))$optim$value - mm)
       out <- rbind(out, c(iter, px, mx))
       if(mx < k) {
         if(k - mx < tolerance) ok1 <- TRUE
@@ -58,7 +58,7 @@ profile.ElementRatio <- function(fitted, variable, confidence=0.95, tolerance=0.
   }
   ## try going down
   ## message("down")
-  mx <- do.call("refit", c(list(x), setNames(list(a), variable)))$optim$value - mm
+  mx <- 2*(do.call("refit", c(list(x), setNames(list(a), variable)))$optim$value - mm)
   out <- rbind(out, c(-1, a, mx))
   if(mx < k) { ## if not enough change at boundary don't bother looking
     lower <- a
@@ -73,7 +73,7 @@ profile.ElementRatio <- function(fitted, variable, confidence=0.95, tolerance=0.
       iter <- iter + 1
       ## message(iter)
       px <- (p0 + p1)/2
-      mx <- do.call("refit", c(list(x), setNames(list(px), variable)))$optim$value - mm
+      mx <- 2*(do.call("refit", c(list(x), setNames(list(px), variable)))$optim$value - mm)
       out <- rbind(out, c(-iter, px, mx))
       if(mx < k ) {
         if(k - mx < tolerance) ok1 <- TRUE
