@@ -4,27 +4,27 @@
 \alias{ControlElementRatioFit}
 \title{Set the control parameters for the optimization of the element ratio fit}
 \usage{
-ControlElementRatioFit(depth, logratio, p1.start = 0.2, p2.start = 0.5,
-  c.start = diff(range(logratio))/2, x2.start = p2.start * max(depth),
-  par.start, lower = c(p1 = 0, x2 = 0.05 * max(depth), c =
-  -diff(range(logratio)), sd1 = 0.1 * sd(logratio), sd2 = 0.1 * sd(logratio), d
-  = min(logratio)), upper = c(p1 = 0.95, x2 = max(depth), c =
-  diff(range(logratio)), sd1 = sd(range(logratio)), sd2 = sd(range(logratio)), d
-  = max(logratio)), parscale = c(p1 = 1, x2 = max(depth), c = 1, sd1 = 1, sd2
-  = 1, d = 1))
+ControlElementRatioFit(depth, logratio, p.start = 0.2, pd.start = 0.5,
+  c.start = diff(range(logratio))/2, d.start = pd.start * max(depth),
+  par.start, lower = c(p = 0, d = 0.05 * max(depth), c =
+  -diff(range(logratio)), s1 = 0.1 * sd(logratio), s2 = 0.1 * sd(logratio), r =
+  min(logratio)), upper = c(p = 0.95, d = max(depth), c =
+  diff(range(logratio)), s1 = sd(range(logratio)), s2 = sd(range(logratio)), r =
+  max(logratio)), parscale = c(p = 1, d = max(depth), c = 1, s1 = 1, s2 = 1, r
+  = 1))
 }
 \arguments{
 \item{depth}{depth}
 
 \item{logratio}{logratio}
 
-\item{p1.start}{p1.start}
+\item{p.start}{p.start}
 
-\item{p2.start}{p2.start}
+\item{pd.start}{pd.start Where d should start, in terms of proportion of maximum depth}
 
 \item{c.start}{c.start}
 
-\item{x2.start}{x2.start}
+\item{d.start}{d.start}
 
 \item{par.start}{par.start}
 

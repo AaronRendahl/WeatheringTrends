@@ -52,7 +52,7 @@ FitElementRatio <- function(mobile, immobile, depth, data,
 refit <- function(x, hessian=FALSE, ...) {
   x$fixed <- list(...)
   n <- setdiff(rownames(x$control), names(x$fixed))
-  n <- setdiff(n, "d")
+  n <- setdiff(n, "r")
   control <- x$control[n, ]
   par.start <- setNames(control$par.start, n)
   opt <- optim(par.start, negloglik, depth=x$data$depth, logratio=x$data$logratio, ...,
@@ -61,12 +61,12 @@ refit <- function(x, hessian=FALSE, ...) {
                control=list(parscale=control$parscale))
   x$optim <- opt
   p <- opt$par
-  if(!"d" %in% names(x$fixed)) {
-    p <- c(p, d=do.call("getmsd", c(list(x=x$data$depth, y=x$data$logratio, d.only=TRUE), c(as.list(opt$par), ...))))
+  if(!"r" %in% names(x$fixed)) {
+    p <- c(p, r=do.call("getmsd", c(list(x=x$data$depth, y=x$data$logratio, r.only=TRUE), c(as.list(opt$par), ...))))
   }
-  p <- x$par <- c(p, ...)[c("p1", "x2", "c", "sd1", "sd2", "d")]
-  x$output <- c(depth1=p[["p1"]]*p[["x2"]], depth2=p[["x2"]], p["c"],
-                logratio1=p[["d"]] - p[["c"]], logratio2=p[["d"]], p["sd1"], p["sd2"])
+  p <- x$par <- c(p, ...)[c("p", "d", "c", "s1", "s2", "r")]
+  x$output <- c(depth1=p[["p"]]*p[["d"]], depth2=p[["d"]],
+                logratio1=p[["r"]] - p[["c"]], logratio2=p[["r"]], p["s1"], p["s2"])
   class(x) <- "ElementRatio"
   x
 }

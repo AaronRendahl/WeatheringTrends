@@ -24,7 +24,7 @@ plot(fit1)
 ```
 
 ```{r}
-fit1 <- profile(fit1, "x2")
+fit1 <- profile(fit1, "d")
 fit1$confint
 plot(fit1)
 ```

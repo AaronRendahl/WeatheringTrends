@@ -15,7 +15,7 @@ profile.ElementRatio <- function(fitted, variable, confidence=0.95, tolerance=0.
   x <- fitted
   k <- qchisq(confidence, 1)
   if(is.null(x$profile)) x$profile <- list()
-  if(variable=="d") {
+  if(variable=="r") {
     a <- min(x$data$logratio)
     b <- max(x$data$logratio)
   } else {

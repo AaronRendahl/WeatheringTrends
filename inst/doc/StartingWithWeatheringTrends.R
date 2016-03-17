@@ -7,7 +7,7 @@ fit1$output
 plot(fit1)
 
 ## ------------------------------------------------------------------------
-fit1 <- profile(fit1, "x2")
+fit1 <- profile(fit1, "d")
 fit1$confint
 plot(fit1)
 

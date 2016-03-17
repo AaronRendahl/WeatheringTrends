@@ -35,11 +35,11 @@ plot.ElementRatio <- function(x, sd=1, main=paste0(x$mobile, "/", x$immobile), r
   cis <- NULL
   if(!is.null(x$confint)) {
     if("x2" %in% rownames(x$confint)) {
-      ci <- x$confint["x2",]
+      ci <- x$confint["d",]
       x0 <- x$output[["depth2"]]
       y0 <- tolog(x$output[["logratio2"]])
       cis <- data.frame(x0=ci[1], x1=ci[2], y0=y0, y1=y0, xd=0, yd=0.005)
-      rownames(cis) <- "x2"
+      rownames(cis) <- "d"
     }
   }
   if(rotate) {

@@ -5,40 +5,40 @@
 #'
 #' @param depth depth
 #' @param logratio logratio
-#' @param p1.start p1.start
-#' @param p2.start p2.start
+#' @param p.start p.start
+#' @param pd.start pd.start Where d should start, in terms of proportion of maximum depth
 #' @param c.start c.start
-#' @param x2.start x2.start
+#' @param d.start d.start
 #' @param par.start par.start
 #' @param lower lower
 #' @param upper upper
 #' @param parscale parscale
 #' @return data frame with the starting parameters, the lower and upper bounds, and the scaling
 #' @export
-ControlElementRatioFit <- function(depth, logratio, p1.start=0.2, p2.start=0.5,
+ControlElementRatioFit <- function(depth, logratio, p.start=0.2, pd.start=0.5,
                                    c.start=diff(range(logratio)) / 2,
-                                   x2.start=p2.start*max(depth),
+                                   d.start=pd.start*max(depth),
                                    par.start,
-                                   lower=c(p1=0, x2=0.05*max(depth), c=-diff(range(logratio)),
-                                           sd1=0.1*sd(logratio), sd2=0.1*sd(logratio), d=min(logratio)),
-                                   upper=c(p1=0.95, x2=max(depth), c=diff(range(logratio)),
-                                           sd1=sd(range(logratio)), sd2=sd(range(logratio)), d=max(logratio)),
-                                   parscale=c(p1=1, x2=max(depth), c=1, sd1=1, sd2=1, d=1)
+                                   lower=c(p=0, d=0.05*max(depth), c=-diff(range(logratio)),
+                                           s1=0.1*sd(logratio), s2=0.1*sd(logratio), r=min(logratio)),
+                                   upper=c(p=0.95, d=max(depth), c=diff(range(logratio)),
+                                           s1=sd(range(logratio)), s2=sd(range(logratio)), r=max(logratio)),
+                                   parscale=c(p=1, d=max(depth), c=1, s1=1, s2=1, r=1)
 ) {
   if(missing(par.start)) {
-    par.start <- c(p1 = p1.start,
-                   x2 = x2.start,
+    par.start <- c(p = p.start,
+                   d = d.start,
                    c = c.start)
-    fit.start <- do.call("getmsd", c(list(x=depth, y=logratio, sd1=1, sd2=1, fit.only=TRUE),
+    fit.start <- do.call("getmsd", c(list(x=depth, y=logratio, s1=1, s2=1, fit.only=TRUE),
                                      as.list(par.start)))
     sd.start <- sd(logratio - fit.start)
-    sdlo <- max(lower[c("sd1", "sd2")])
-    sdhi <- min(upper[c("sd1", "sd2")])
+    sdlo <- max(lower[c("s1", "s2")])
+    sdhi <- min(upper[c("s1", "s2")])
     if(sd.start < sdlo | sd.start > sdhi) sd.start <- (sdlo + sdhi) / 2
-    par.start <- c(par.start, sd1=sd.start, sd2=sd.start)
+    par.start <- c(par.start, s1=sd.start, s2=sd.start)
   }
-  d.start <- do.call("getmsd", c(list(x=depth, y=logratio, d.only=TRUE), par.start))
-  par.start <- c(par.start, d=d.start)
+  r.start <- do.call("getmsd", c(list(x=depth, y=logratio, r.only=TRUE), par.start))
+  par.start <- c(par.start, r=r.start)
   n <- names(par.start)
   data.frame(par.start=par.start, lower=lower[n], upper=upper[n], parscale=parscale[n])
 }
