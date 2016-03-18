@@ -13,13 +13,14 @@ negloglik <- function(par, depth, logratio, ...) {
 #' @param depth the name of the depth variable
 #' @param data the data set where these variables are found
 #' @param min.mobile will set zero mobile values to this value (default is the smallest value)
+#' @param profile variables to profile over automatically
 #' @param verbose set verbosity
 #' @param hessian get the hessian from the optimization
 #' @param ... additional parameters sent to \code{ControlElementRatioFit}
 #' @return an ElementRatio object, with the output from the optimization and the optimal parameters, presented both in the
 #' @export
 FitElementRatio <- function(mobile, immobile, depth, data,
-                   min.mobile,
+                   min.mobile, profile="d",
                    verbose=TRUE, hessian=FALSE, ...) {
   name.mobile <- mobile
   name.immobile <- immobile
@@ -46,7 +47,11 @@ FitElementRatio <- function(mobile, immobile, depth, data,
   control <- ControlElementRatioFit(depth=depth, logratio=logratio, ...)
   data <- data.frame(depth=depth, logratio=logratio)
   out <- list(data=data, control=control, mobile=name.mobile, immobile=name.immobile)
-  refit(out, hessian=hessian)
+  out <- refit(out, hessian=hessian)
+  if(!isTRUE(all.equal(profile, FALSE))) {
+    for(pp in profile) out <- profile(out, pp)
+  }
+  out
 }
 
 refit <- function(x, hessian=FALSE, ...) {

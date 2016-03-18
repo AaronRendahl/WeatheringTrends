@@ -4,8 +4,8 @@
 \alias{FitElementRatio}
 \title{Fit the element ratio for a single pair}
 \usage{
-FitElementRatio(mobile, immobile, depth, data, min.mobile, verbose = TRUE,
-  hessian = FALSE, ...)
+FitElementRatio(mobile, immobile, depth, data, min.mobile, profile = "d",
+  verbose = TRUE, hessian = FALSE, ...)
 }
 \arguments{
 \item{mobile}{the name of the mobile variable}
@@ -17,6 +17,8 @@ FitElementRatio(mobile, immobile, depth, data, min.mobile, verbose = TRUE,
 \item{data}{the data set where these variables are found}
 
 \item{min.mobile}{will set zero mobile values to this value (default is the smallest value)}
+
+\item{profile}{variables to profile over automatically}
 
 \item{verbose}{set verbosity}
 
