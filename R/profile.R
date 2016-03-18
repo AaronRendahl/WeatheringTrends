@@ -12,6 +12,7 @@
 #' @return the original object with elements profile and confint added
 #' @export
 profile.ElementRatio <- function(fitted, variable, confidence=0.95, tolerance=0.1, maxiter=10, ...) {
+  if(fitted$optim == "No variation, optimization not performed.") return(fitted)
   x <- fitted
   k <- qchisq(confidence, 1)
   if(is.null(x$profile)) x$profile <- list()
