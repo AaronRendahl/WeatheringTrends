@@ -28,6 +28,6 @@ FitElementRatio(mobile, immobile, depth, data, min.mobile, verbose = TRUE,
 an ElementRatio object, with the output from the optimization and the optimal parameters, presented both in the
 }
 \description{
-\code{FitElementRatio}
+\code{FitElementRatio} creates the mobile/immobile ratio and fits it to the depth.
 }
 

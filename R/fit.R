@@ -6,7 +6,7 @@ negloglik <- function(par, depth, logratio, ...) {
 
 #' Fit the element ratio
 #'
-#' \code{FitElementRatio}
+#' \code{FitElementRatio} creates the mobile/immobile ratio and fits it to the depth.
 #'
 #' @param mobile the name of the mobile variable
 #' @param immobile the name of the immobile variable
