@@ -24,7 +24,7 @@ fit1$confint
 plot(fit1)
 ```
 
-## Works for incorporation too
+## Allows for enrichment of elements
 
 Fake this by simply turning around mobile and immobile.
 ```{r}
