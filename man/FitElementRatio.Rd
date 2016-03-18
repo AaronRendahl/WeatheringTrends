@@ -2,7 +2,7 @@
 % Please edit documentation in R/fit.R
 \name{FitElementRatio}
 \alias{FitElementRatio}
-\title{Fit the element ratio}
+\title{Fit the element ratio for a single pair}
 \usage{
 FitElementRatio(mobile, immobile, depth, data, min.mobile, verbose = TRUE,
   hessian = FALSE, ...)

@@ -4,7 +4,7 @@ negloglik <- function(par, depth, logratio, ...) {
   -sum(dnorm(logratio, mean=fit$estimate, sd=fit$sd, log=TRUE))
 }
 
-#' Fit the element ratio
+#' Fit the element ratio for a single pair
 #'
 #' \code{FitElementRatio} creates the mobile/immobile ratio and fits it to the depth.
 #'
