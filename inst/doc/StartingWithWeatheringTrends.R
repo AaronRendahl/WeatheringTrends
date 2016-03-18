@@ -13,8 +13,10 @@ fit2$par
 fit2$output
 plot(fit2)
 
-## ---- fig.show='hold', fig.width=8, fig.height=8-------------------------
-fits <- FitElementRatios(c("Sr", "Pb"), c("Zr", "V"), "depth.top", welldata, profile=FALSE)
-par(mfrow=c(2,2))
-for(i in 1:2) for(j in 1:2) plot(fits[[i]][[j]])
+## ---- fig.show='hold', fig.width=8, fig.height=10------------------------
+fits <- FitElementRatios(c("Sr", "Pb", "CaO"), c("Zr", "V"), "depth.top", welldata, profile=FALSE)
+nm <- length(fits)
+ni <- length(fits[[1]])
+par(mfrow=c(nm, ni), mar=c(2.5, 2.5, 2, 0))
+for(i in 1:nm) for(j in 1:ni) plot(fits[[i]][[j]])
 
