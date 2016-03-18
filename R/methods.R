@@ -34,7 +34,7 @@ plot.ElementRatio <- function(x, sd=1, main=paste0(x$mobile, "/", x$immobile), r
   x.fit$estimate <- tolog(x.fit$estimate)
   cis <- NULL
   if(!is.null(x$confint)) {
-    if("x2" %in% rownames(x$confint)) {
+    if("d" %in% rownames(x$confint)) {
       ci <- x$confint["d",]
       x0 <- x$output[["depth2"]]
       y0 <- tolog(x$output[["logratio2"]])
