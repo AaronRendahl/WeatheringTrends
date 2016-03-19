@@ -72,10 +72,10 @@ with(fit, {
 ```
 The model input, *y*, is a ratio of mobile:immoble element. As the model fits the set of element ratios along y, it finds the best fit for two segments of line and calculates the standard deviation at each line segment. We report the depth at each line break, which may represent the depth influence of processes that may deplete or enrich the elements. We also report the confidence interval at the deepest slope break.
 
-Where we define the variables as follows:
-*d* is the depth at the deepest slope break
-*pd* is the depth at the shallowest slope break, where *p* is a fraction of *d*
-*r* is the y value of the deepest slope break where 
-*y = e^r* and *r* = mobile:immobile
-*r-c* is the difference in y between the two slope breaks
-*s* is the standard deviation
+Where we define the variables as follows:  
+* *d* is the depth at the deepest slope break  
+* *pd* is the depth at the shallowest slope break, where *p* is a fraction of *d*  
+* *r* is the y value of the deepest slope break where  
+* *y = e^r* and *r* = mobile:immobile  
+* *r-c* is the difference in y between the two slope breaks  
+* *s* is the standard deviation  
