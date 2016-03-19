@@ -1,3 +1,16 @@
+#' plot an ElementRatios object
+#'
+#' plot an ElementRatios object
+#' @param x the object
+#' @param ... additional parameters sent to the individual plots
+#' @export
+plot.ElementRatios <- function(x, ...) {
+  nm <- length(fits)
+  ni <- length(fits[[1]])
+  par(mfrow=c(nm, ni), mar=c(2.5, 2.5, 2, 0))
+  for(i in 1:nm) for(j in 1:ni) plot(fits[[i]][[j]], ...)
+}
+
 #' print an ElementRatio object
 #'
 #' print an ElementRatio object

@@ -2,6 +2,7 @@
 
 S3method(fitted,ElementRatio)
 S3method(plot,ElementRatio)
+S3method(plot,ElementRatios)
 S3method(print,ElementRatio)
 S3method(profile,ElementRatio)
 export(BootElementRatio)

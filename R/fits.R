@@ -6,7 +6,7 @@
 #' @param depth name of the depth variable
 #' @param data data frame where these variables are found
 #' @param ... additional parameters sent to \code{ControlElementRatioFit}
-#' @return a list of lists of ElementRatio objects
+#' @return an ElementRatios object, which is a list of lists of ElementRatio objects
 #' @export
 FitElementRatios <- function(mobile, immobile, depth, data,...) {
   ok <- names(data)[colSums(!is.na(data)) > 0]
@@ -14,9 +14,11 @@ FitElementRatios <- function(mobile, immobile, depth, data,...) {
   immobile <- immobile[immobile %in% ok]
   names(mobile) <- mobile
   names(immobile) <- immobile
-  lapply(mobile, function(y) {
+  out <- lapply(mobile, function(y) {
     lapply(immobile, function(x) {
       FitElementRatio(mobile=y, immobile=x, depth=depth, data=data, ...)
     })
   })
+  class(out) <- "ElementRatios"
+  out
 }
