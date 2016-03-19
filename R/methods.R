@@ -9,10 +9,12 @@ print.ElementRatio <- function(x, digits=3, ...) {
   cat("Fit of ", x$mobile, "/", x$immobile, "\n\n", sep="")
   out <- data.frame(estimate=x$par)
   m <- match(rownames(x$confint), rownames(out))
-  out$upr <- out$lwr <- NA
-  out$lwr[m] <- x$confint[,"lower"]
-  out$upr[m] <- x$confint[,"upper"]
-  cat("Fitted Parameters (with CI, if found)\n")
+  if(!is.null(out$confint)) {
+    out$upr <- out$lwr <- NA
+    out$lwr[m] <- x$confint[,"lower"]
+    out$upr[m] <- x$confint[,"upper"]
+  }
+    cat("Fitted Parameters (with CI, if found)\n")
   ff <- function(x, digits=3, format="f", ...) {
     n <- is.na(x)
     out <- formatC(x, digits=digits, format=format, ...)
