@@ -50,7 +50,7 @@ fitted.ElementRatio <- function(object, depth=object$data$depth, ...) {
 #' @param ... additional parameters sent to plot
 #' @return NULL
 #' @export
-plot.ElementRatio <- function(x, sd=1, main=paste0(x$mobile, "/", x$immobile), rotate=TRUE, log=FALSE, ci.lty=3,
+plot.ElementRatio <- function(x, sd=1, main=paste0(x$mobile, "/", x$immobile), rotate=TRUE, log=TRUE, ci.lty=3,
                       responselabel=if(log) "logratio" else "ratio", ...) {
   depth <- x$data$depth
   xx <- c(0, seq(x$output[["depth1"]], x$output[["depth2"]], len=50), max(depth))
