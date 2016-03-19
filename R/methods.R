@@ -1,3 +1,16 @@
+#' plot an ElementRatios object
+#'
+#' plot an ElementRatios object
+#' @param x the object
+#' @param ... additional parameters sent to the individual plots
+#' @export
+plot.ElementRatios <- function(x, ...) {
+  nm <- length(fits)
+  ni <- length(fits[[1]])
+  par(mfrow=c(nm, ni), mar=c(2.5, 2.5, 2, 0))
+  for(i in 1:nm) for(j in 1:ni) plot(fits[[i]][[j]], ...)
+}
+
 #' print an ElementRatio object
 #'
 #' print an ElementRatio object
@@ -9,10 +22,12 @@ print.ElementRatio <- function(x, digits=3, ...) {
   cat("Fit of ", x$mobile, "/", x$immobile, "\n\n", sep="")
   out <- data.frame(estimate=x$par)
   m <- match(rownames(x$confint), rownames(out))
-  out$upr <- out$lwr <- NA
-  out$lwr[m] <- x$confint[,"lower"]
-  out$upr[m] <- x$confint[,"upper"]
-  cat("Fitted Parameters (with CI, if found)\n")
+  if(!is.null(out$confint)) {
+    out$upr <- out$lwr <- NA
+    out$lwr[m] <- x$confint[,"lower"]
+    out$upr[m] <- x$confint[,"upper"]
+  }
+    cat("Fitted Parameters (with CI, if found)\n")
   ff <- function(x, digits=3, format="f", ...) {
     n <- is.na(x)
     out <- formatC(x, digits=digits, format=format, ...)
@@ -50,7 +65,7 @@ fitted.ElementRatio <- function(object, depth=object$data$depth, ...) {
 #' @param ... additional parameters sent to plot
 #' @return NULL
 #' @export
-plot.ElementRatio <- function(x, sd=1, main=paste0(x$mobile, "/", x$immobile), rotate=TRUE, log=FALSE, ci.lty=3,
+plot.ElementRatio <- function(x, sd=1, main=paste0(x$mobile, "/", x$immobile), rotate=TRUE, log=TRUE, ci.lty=3,
                       responselabel=if(log) "logratio" else "ratio", ...) {
   depth <- x$data$depth
   xx <- c(0, seq(x$output[["depth1"]], x$output[["depth2"]], len=50), max(depth))

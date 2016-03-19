@@ -5,8 +5,8 @@
 \title{plot an ElementRatio object}
 \usage{
 \method{plot}{ElementRatio}(x, sd = 1, main = paste0(x$mobile, "/",
-  x$immobile), rotate = TRUE, log = FALSE, ci.lty = 3,
-  responselabel = if (log) "logratio" else "ratio", ...)
+  x$immobile), rotate = TRUE, log = TRUE, ci.lty = 3, responselabel = if
+  (log) "logratio" else "ratio", ...)
 }
 \arguments{
 \item{x}{object}

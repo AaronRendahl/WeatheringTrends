@@ -18,7 +18,7 @@ FitElementRatios(mobile, immobile, depth, data, ...)
 \item{...}{additional parameters sent to \code{ControlElementRatioFit}}
 }
 \value{
-a list of lists of ElementRatio objects
+an ElementRatios object, which is a list of lists of ElementRatio objects
 }
 \description{
 \code{FitElementRatios} runs \code{FitElementRatio} on several elements
