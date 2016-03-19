@@ -1,3 +1,30 @@
+#' print an ElementRatio object
+#'
+#' print an ElementRatio object
+#' @param x the object
+#' @param digits number of decimal places to show
+#' @param ... unused
+#' @export
+print.ElementRatio <- function(x, digits=3, ...) {
+  cat("Fit of ", x$mobile, "/", x$immobile, "\n\n", sep="")
+  out <- data.frame(estimate=x$par)
+  m <- match(rownames(x$confint), rownames(out))
+  out$upr <- out$lwr <- NA
+  out$lwr[m] <- x$confint[,"lower"]
+  out$upr[m] <- x$confint[,"upper"]
+  cat("Fitted Parameters (with CI, if found)\n")
+  ff <- function(x, digits=3, format="f", ...) {
+    n <- is.na(x)
+    out <- formatC(x, digits=digits, format=format, ...)
+    out[n] <- ""
+    out
+  }
+  for(i in seq_along(out)) out[[i]] <- ff(out[[i]])
+  print(out)
+  cat("\n")
+  print(x$output, digits=digits)
+}
+
 #' get fitted values for an ElementRatio object
 #'
 #' get fitted values for an ElementRatio object
@@ -51,9 +78,9 @@ plot.ElementRatio <- function(x, sd=1, main=paste0(x$mobile, "/", x$immobile), r
     yl <- diff(grconvertY(c(0,1), "npc", "user"))
     dx <- diff(grconvertX(c(0, 1), "npc", "inches"))
     dy <- diff(grconvertY(c(0, 1), "npc", "inches"))
-    len <- sqrt(dx^2 + dy^2) * 0.01  
+    len <- sqrt(dx^2 + dy^2) * 0.01
     if(!is.null(cis)) for(i in seq_len(nrow(cis))) {
-      arrows(y0=cis$x0[i]+cis$xd[i]*yl, y1=cis$x1[i]+cis$xd[i]*yl, 
+      arrows(y0=cis$x0[i]+cis$xd[i]*yl, y1=cis$x1[i]+cis$xd[i]*yl,
              x0=cis$y0[i]+cis$yd[i]*xl, x1=cis$y1[i]+cis$yd[i]*xl,
              code=3, angle=90, length=len, lty=ci.lty)
     }
@@ -66,9 +93,9 @@ plot.ElementRatio <- function(x, sd=1, main=paste0(x$mobile, "/", x$immobile), r
     yl <- diff(grconvertY(c(0,1), "npc", "user"))
     dx <- diff(grconvertX(c(0, 1), "npc", "inches"))
     dy <- diff(grconvertY(c(0, 1), "npc", "inches"))
-    len <- sqrt(dx^2 + dy^2) * 0.01  
+    len <- sqrt(dx^2 + dy^2) * 0.01
     if(!is.null(cis)) for(i in seq_len(nrow(cis))) {
-      arrows(x0=cis$x0[i]+cis$xd[i]*xl, x1=cis$x1[i]+cis$xd[i]*xl, 
+      arrows(x0=cis$x0[i]+cis$xd[i]*xl, x1=cis$x1[i]+cis$xd[i]*xl,
              y0=cis$y0[i]+cis$yd[i]*yl, y1=cis$y1[i]+cis$yd[i]*yl,
              code=3, angle=90, length=len, lty=ci.lty)
     }

@@ -15,7 +15,11 @@ getmsd <- function(x, y, p, d, c, s1, s2, r, fit.only=FALSE, r.only=FALSE) {
   s[k12] <- s2 - (s2 - s1) * tmp
   ## r and output
   if(missing(r)) {
-    r <- weighted.mean(y - m, 1 / s^2)
+    if(any(s==0)) { 
+      r <- mean((y-m)[s==0])
+    } else { 
+      r <- weighted.mean(y - m, 1 / s^2) 
+    }
   }
   m <- m + r
   if(r.only) return(r)
