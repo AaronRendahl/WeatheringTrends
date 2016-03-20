@@ -5,7 +5,7 @@
 \title{Fit the element ratio for a single pair}
 \usage{
 FitElementRatio(mobile, immobile, depth, data, min.mobile, profile = "d",
-  verbose = TRUE, hessian = FALSE, ...)
+  loglinear = FALSE, verbose = TRUE, hessian = FALSE, ...)
 }
 \arguments{
 \item{mobile}{the name of the mobile variable}
@@ -19,6 +19,8 @@ FitElementRatio(mobile, immobile, depth, data, min.mobile, profile = "d",
 \item{min.mobile}{will set zero mobile values to this value (default is the smallest value)}
 
 \item{profile}{variables to profile over automatically}
+
+\item{loglinear}{allows the linear portion to be linear on the log(ratio) scale instead of the ratio scale}
 
 \item{verbose}{set verbosity}
 

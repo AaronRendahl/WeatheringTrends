@@ -36,4 +36,22 @@ fits <- FitElementRatios(c("Sr", "Pb", "CaO"), c("Zr", "V"), "depth.top", wellda
 plot(fits)
 ```
 
+## Testing this out...
 
+Can also change the fit so it's linear on the log(ratio) scale instead of on the ratio scale.
+
+Original method, linear on the ratio scale.
+```{r, fig.width=8, fig.height=4}
+(fita <- FitElementRatio("Sr", "Zr", "depth.top", welldata, profile=FALSE))
+par(mfrow=c(1,2))
+plot(fita)
+plot(fita, log=FALSE)
+```
+
+Or linear on the log scale.
+```{r, fig.width=8, fig.height=4}
+(fitb <- FitElementRatio("Sr", "Zr", "depth.top", welldata, loglinear=TRUE, profile=FALSE))
+par(mfrow=c(1,2))
+plot(fitb)
+plot(fitb, log=FALSE)
+```

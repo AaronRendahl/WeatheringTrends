@@ -49,7 +49,7 @@ print.ElementRatio <- function(x, digits=3, ...) {
 #' @return a data frame with the estimate and sd for each depth
 #' @export
 fitted.ElementRatio <- function(object, depth=object$data$depth, ...) {
-  do.call("getmsd", c(list(x=depth), as.list(object$par)))
+  do.call("getmsd", c(list(x=depth, loglinear=object$loglinear), as.list(object$par)))
 }
 
 #' plot an ElementRatio object

@@ -1,5 +1,5 @@
-negloglik <- function(par, depth, logratio, ...) {
-  fit <- do.call("getmsd", c(list(x=depth, y=logratio), as.list(par), ...))
+negloglik <- function(par, depth, logratio, loglinear, ...) {
+  fit <- do.call("getmsd", c(list(x=depth, y=logratio, loglinear=loglinear), as.list(par), ...))
   if(any(fit$estimate==-Inf)) {print(fit); print(par)}
   -sum(dnorm(logratio, mean=fit$estimate, sd=fit$sd, log=TRUE))
 }
@@ -14,13 +14,14 @@ negloglik <- function(par, depth, logratio, ...) {
 #' @param data the data set where these variables are found
 #' @param min.mobile will set zero mobile values to this value (default is the smallest value)
 #' @param profile variables to profile over automatically
+#' @param loglinear allows the linear portion to be linear on the log(ratio) scale instead of the ratio scale
 #' @param verbose set verbosity
 #' @param hessian get the hessian from the optimization
 #' @param ... additional parameters sent to \code{ControlElementRatioFit}
 #' @return an ElementRatio object, with the output from the optimization and the optimal parameters, presented both in the
 #' @export
 FitElementRatio <- function(mobile, immobile, depth, data,
-                   min.mobile, profile="d",
+                   min.mobile, profile="d", loglinear=FALSE,
                    verbose=TRUE, hessian=FALSE, ...) {
   name.mobile <- mobile
   name.immobile <- immobile
@@ -44,9 +45,9 @@ FitElementRatio <- function(mobile, immobile, depth, data,
     if(verbose) message("set ", sum(fix), " zero observations to the minimum value")
   }
   logratio <- log(mobile/immobile)
-  control <- ControlElementRatioFit(depth=depth, logratio=logratio, ...)
+  control <- ControlElementRatioFit(depth=depth, logratio=logratio, loglinear=loglinear, ...)
   data <- data.frame(depth=depth, logratio=logratio)
-  out <- list(data=data, control=control, mobile=name.mobile, immobile=name.immobile)
+  out <- list(data=data, control=control, mobile=name.mobile, immobile=name.immobile, loglinear=loglinear)
   out <- refit(out, hessian=hessian)
   if(!isTRUE(all.equal(profile, FALSE))) {
     for(pp in profile) out <- profile(out, pp)
@@ -62,18 +63,19 @@ refit <- function(x, hessian=FALSE, ...) {
   par.start <- setNames(control$par.start, n)
   if(sd(x$data$logratio)==0) {
     x$optim <- "No variation, optimization not performed."
-    p <- x$par <- c(p=0, d=0, c=0, s1=0, s2=0, r=x$data$logratio[1])    
+    p <- x$par <- c(p=0, d=0, c=0, s1=0, s2=0, r=x$data$logratio[1])
   } else {
     opt <- optim(par.start, negloglik, depth=x$data$depth, logratio=x$data$logratio, ...,
+                 loglinear=x$loglinear,
                  hessian=hessian, method="L-BFGS-B",
                  lower=control$lower, upper=control$upper,
                  control=list(parscale=control$parscale))
     x$optim <- opt
     p <- opt$par
     if(!"r" %in% names(x$fixed)) {
-      p <- c(p, r=do.call("getmsd", c(list(x=x$data$depth, y=x$data$logratio, r.only=TRUE), c(as.list(opt$par), ...))))
-    }    
-    p <- x$par <- c(p, ...)[c("p", "d", "c", "s1", "s2", "r")]    
+      p <- c(p, r=do.call("getmsd", c(list(x=x$data$depth, y=x$data$logratio, r.only=TRUE, loglinear=x$loglinear), c(as.list(opt$par), ...))))
+    }
+    p <- x$par <- c(p, ...)[c("p", "d", "c", "s1", "s2", "r")]
   }
   x$output <- c(depth1=p[["p"]]*p[["d"]], depth2=p[["d"]],
                 logratio1=p[["r"]] - p[["c"]], logratio2=p[["r"]], p["s1"], p["s2"])
