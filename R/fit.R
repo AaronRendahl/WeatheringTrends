@@ -49,6 +49,7 @@ FitElementRatio <- function(mobile, immobile, depth, data,
   data <- data.frame(depth=depth, logratio=logratio)
   out <- list(data=data, control=control, mobile=name.mobile, immobile=name.immobile, loglinear=loglinear)
   out <- refit(out, hessian=hessian)
+  if(isTRUE(profile)) profile <- "d"
   if(!isTRUE(all.equal(profile, FALSE))) {
     for(pp in profile) out <- profile(out, pp)
   }
