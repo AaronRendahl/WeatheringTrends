@@ -1,3 +1,50 @@
+#' get coefficients for an ElementRatios object
+#'
+#' get coefficients for an ElementRatios object
+#' @param object the ElementRatios object
+#' @param type Either output, par, or par.long; output yields the parameters
+#' that are most interpretable, par yields the fitted parameters, and par.long
+#' yields the fitted parameters in long format with the confidence interval,
+#' if available
+#' @param ... additional parameters, unused
+#' @export
+coef.ElementRatios <- function(object, type=c("output","par","par.long"), ...) {
+  type <- match.arg(type)
+  out <- do.call(rbind, lapply(object, function(x) {
+    do.call(rbind, lapply(x, function(y) {
+      coef(y, type=type)
+    }))
+  }))
+  rownames(out) <- NULL
+  out
+}
+
+#' get coefficients for an ElementRatio object
+#'
+#' get coefficients for an ElementRatio object
+#' @param object the ElementRatio object
+#' @param type Either output, par, or par.long; output yields the parameters
+#' that are most interpretable, par yields the fitted parameters, and par.long
+#' yields the fitted parameters in long format with the confidence interval,
+#' if available
+#' @param ... additional parameters, unused
+#' @export
+coef.ElementRatio <- function(object, type=c("output","par","par.long"), ...) {
+  type <- match.arg(type)
+  if(type %in% c("output","par")) {
+    out <- data.frame(rbind(object[[type]]))
+  } else {
+    out <- data.frame(estimate=object$par)
+    m <- match(rownames(object$confint), rownames(out))
+    out$upper <- out$lower <- NA
+    out$lower[m] <- object$confint[,"lower"]
+    out$upper[m] <- object$confint[,"upper"]
+  }
+  out <- cbind(mobile=object$mobile, immobile=object$immobile, out, stringsAsFactors=FALSE)
+  rownames(out) <- NULL
+  out
+}
+
 #' plot an ElementRatios object
 #'
 #' plot an ElementRatios object

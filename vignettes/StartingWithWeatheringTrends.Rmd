@@ -21,6 +21,12 @@ data(welldata)
 plot(fit1)
 ```
 
+```{r}
+coef(fit1)
+coef(fit1, type="par")
+coef(fit1, type="par.long")
+```
+
 ## Allows for enrichment of elements
 
 Fake this by simply turning around mobile and immobile.
@@ -34,6 +40,13 @@ plot(fit2)
 ```{r, fig.show='hold', fig.width=8, fig.height=10}
 fits <- FitElementRatios(c("Sr", "Pb", "CaO"), c("Zr", "V"), "depth.top", welldata, profile=FALSE, verbose=FALSE)
 plot(fits)
+```
+
+Can also get coefficients here easily too
+```{r}
+coef(fits)
+coef(fits, type="par")
+coef(fits, type="par.long")
 ```
 
 ## Testing this out...
