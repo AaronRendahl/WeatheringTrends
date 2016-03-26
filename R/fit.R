@@ -66,7 +66,7 @@ refit <- function(x, hessian=FALSE, ...) {
     x$optim <- "No variation, optimization not performed."
     p <- x$par <- c(p=0, d=0, c=0, s1=0, s2=0, r=x$data$logratio[1])
   } else {
-    opt <- optim(par.start, negloglik, depth=x$data$depth, logratio=x$data$logratio, ...,
+    opt <- optim(par=par.start, fn=negloglik, depth=x$data$depth, logratio=x$data$logratio, ...,
                  loglinear=x$loglinear,
                  hessian=hessian, method="L-BFGS-B",
                  lower=control$lower, upper=control$upper,
@@ -78,6 +78,7 @@ refit <- function(x, hessian=FALSE, ...) {
     }
     p <- x$par <- c(p, ...)[c("p", "d", "c", "s1", "s2", "r")]
   }
+  x$profile <- x$confint <- NULL
   x$output <- c(depth1=p[["p"]]*p[["d"]], depth2=p[["d"]],
                 logratio1=p[["r"]] - p[["c"]], logratio2=p[["r"]], p["s1"], p["s2"])
   class(x) <- "ElementRatio"
