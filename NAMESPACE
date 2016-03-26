@@ -2,6 +2,8 @@
 
 S3method(coef,ElementRatio)
 S3method(coef,ElementRatios)
+S3method(extractFrom,ElementRatio)
+S3method(extractFrom,ElementRatios)
 S3method(fitted,ElementRatio)
 S3method(plot,ElementRatio)
 S3method(plot,ElementRatios)
@@ -13,3 +15,4 @@ export(ControlElementRatioFit)
 export(FitConstantRatios)
 export(FitElementRatio)
 export(FitElementRatios)
+export(extractFrom)

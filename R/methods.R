@@ -158,16 +158,7 @@ plot.ElementRatio <- function(x, morelines=NULL, sd=1,
   addlines(x, sd=sd, rotate=rotate, log=log)
   if(!is.null(morelines)) addlines(morelines, sd=sd, rotate=rotate, log=log, col="red")
   ## add confidence intervals
-  cis <- NULL
-  if(!is.null(x$confint)) {
-    if("d" %in% rownames(x$confint)) {
-      ci <- x$confint["d",]
-      x0 <- x$output[["depth2"]]
-      y0 <- tolog(x$output[["logratio2"]])
-      cis <- data.frame(x0=ci[1], x1=ci[2], y0=y0, y1=y0, xd=0, yd=0.005)
-      rownames(cis) <- "d"
-    }
-  }
+  cis <- getcis(x)
   if(rotate) {
     xl <- diff(grconvertX(c(0,1), "npc", "user"))
     yl <- diff(grconvertY(c(0,1), "npc", "user"))
