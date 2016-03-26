@@ -1,6 +1,6 @@
 negloglik <- function(par, depth, logratio, loglinear, ...) {
   fit <- do.call("getmsd", c(list(x=depth, y=logratio, loglinear=loglinear), as.list(par), ...))
-  if(any(fit$estimate==-Inf)) {print(fit); print(par)}
+  if(any(fit$estimate==-Inf)) {stop("Infinite fit found; cannot continue.")}
   -sum(dnorm(logratio, mean=fit$estimate, sd=fit$sd, log=TRUE))
 }
 
