@@ -64,13 +64,14 @@ coef.ElementRatio <- function(object, type=c("output","par","par.long"), ...) {
 #'
 #' plot an ElementRatios object
 #' @param x the object
+#' @param morelines also add lines from this ElementRatios object
 #' @param ... additional parameters sent to the individual plots
 #' @export
-plot.ElementRatios <- function(x, ...) {
+plot.ElementRatios <- function(x, morelines=NULL, ...) {
   nm <- length(x)
   ni <- length(x[[1]])
   par(mfrow=c(nm, ni), mar=c(2.5, 2.5, 2, 0))
-  for(i in 1:nm) for(j in 1:ni) plot(x[[i]][[j]], ...)
+  for(i in 1:nm) for(j in 1:ni) plot(x[[i]][[j]], morelines=morelines[[i]][[j]], ...)
 }
 
 #' print an ElementRatio object
@@ -114,10 +115,24 @@ fitted.ElementRatio <- function(object, depth=object$data$depth, ...) {
   do.call("getmsd", c(list(x=depth, loglinear=object$loglinear), as.list(object$par)))
 }
 
+addlines <- function(x, sd=1, rotate=TRUE, log=TRUE, ...) {
+  x.fit <- getlines(x, sd=sd, log=log)
+  if(rotate) {
+    lines(x.fit$estimate, x.fit$depth, ...)
+    lines(x.fit$lower, x.fit$depth, lty=2, ...)
+    lines(x.fit$upper, x.fit$depth, lty=2, ...)
+  } else {
+    lines(x.fit$depth, x.fit$estimate, ...)
+    lines(x.fit$depth, x.fit$lower, lty=2, ...)
+    lines(x.fit$depth, x.fit$upper, lty=2, ...)
+  }
+}
+
 #' plot an ElementRatio object
 #'
 #' plot an ElementRatio object
 #' @param x object
+#' @param morelines also add lines from this ElementRatio object
 #' @param sd how many sd out to put the lines
 #' @param main title of plot
 #' @param rotate should the plot be rotated to have depth on vertical axis
@@ -127,15 +142,22 @@ fitted.ElementRatio <- function(object, depth=object$data$depth, ...) {
 #' @param ... additional parameters sent to plot
 #' @return NULL
 #' @export
-plot.ElementRatio <- function(x, sd=1, main=paste0(x$mobile, "/", x$immobile), rotate=TRUE, log=TRUE, ci.lty=3,
-                      responselabel=if(log) "logratio" else "ratio", ...) {
+plot.ElementRatio <- function(x, morelines=NULL, sd=1,
+                              main=paste0(x$mobile, "/", x$immobile),
+                              rotate=TRUE, log=TRUE, ci.lty=3,
+                              responselabel=if(log) "logratio" else "ratio", ...) {
   depth <- x$data$depth
-  xx <- c(0, seq(x$output[["depth1"]], x$output[["depth2"]], len=50), max(depth))
+  ## start with points
   tolog <- if(log) identity else exp
-  x.fit <- fitted.ElementRatio(x, depth=xx)
-  x.fit$lower <- tolog(x.fit$estimate + sd*x.fit$sd)
-  x.fit$upper <- tolog(x.fit$estimate - sd*x.fit$sd)
-  x.fit$estimate <- tolog(x.fit$estimate)
+  if(rotate) {
+    plot(tolog(x$data$logratio), depth, main=main, xlab=responselabel, ylim=rev(range(depth)), ...)
+  } else {
+    plot(depth, tolog(x$data$logratio), main=main, ylab=responselabel, ...)
+  }
+  ## add lines
+  addlines(x, sd=sd, rotate=rotate, log=log)
+  if(!is.null(morelines)) addlines(morelines, sd=sd, rotate=rotate, log=log, col="red")
+  ## add confidence intervals
   cis <- NULL
   if(!is.null(x$confint)) {
     if("d" %in% rownames(x$confint)) {
@@ -147,10 +169,6 @@ plot.ElementRatio <- function(x, sd=1, main=paste0(x$mobile, "/", x$immobile), r
     }
   }
   if(rotate) {
-    plot(tolog(x$data$logratio), depth, main=main, xlab=responselabel, ylim=rev(range(depth)), ...)
-    lines(x.fit$estimate, xx)
-    lines(x.fit$lower, xx, lty=2)
-    lines(x.fit$upper, xx, lty=2)
     xl <- diff(grconvertX(c(0,1), "npc", "user"))
     yl <- diff(grconvertY(c(0,1), "npc", "user"))
     dx <- diff(grconvertX(c(0, 1), "npc", "inches"))
@@ -162,10 +180,6 @@ plot.ElementRatio <- function(x, sd=1, main=paste0(x$mobile, "/", x$immobile), r
              code=3, angle=90, length=len, lty=ci.lty)
     }
   } else {
-    plot(depth, tolog(x$data$logratio), main=main, ylab=responselabel, ...)
-    lines(xx, x.fit$estimate)
-    lines(xx, x.fit$lower, lty=2)
-    lines(xx, x.fit$upper, lty=2)
     xl <- diff(grconvertX(c(0,1), "npc", "user"))
     yl <- diff(grconvertY(c(0,1), "npc", "user"))
     dx <- diff(grconvertX(c(0, 1), "npc", "inches"))

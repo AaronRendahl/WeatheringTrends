@@ -4,12 +4,14 @@
 \alias{plot.ElementRatio}
 \title{plot an ElementRatio object}
 \usage{
-\method{plot}{ElementRatio}(x, sd = 1, main = paste0(x$mobile, "/",
-  x$immobile), rotate = TRUE, log = TRUE, ci.lty = 3, responselabel = if
-  (log) "logratio" else "ratio", ...)
+\method{plot}{ElementRatio}(x, morelines = NULL, sd = 1,
+  main = paste0(x$mobile, "/", x$immobile), rotate = TRUE, log = TRUE,
+  ci.lty = 3, responselabel = if (log) "logratio" else "ratio", ...)
 }
 \arguments{
 \item{x}{object}
+
+\item{morelines}{also add lines from this ElementRatio object}
 
 \item{sd}{how many sd out to put the lines}
 

@@ -4,10 +4,12 @@
 \alias{plot.ElementRatios}
 \title{plot an ElementRatios object}
 \usage{
-\method{plot}{ElementRatios}(x, ...)
+\method{plot}{ElementRatios}(x, morelines = NULL, ...)
 }
 \arguments{
 \item{x}{the object}
+
+\item{morelines}{also add lines from this ElementRatios object}
 
 \item{...}{additional parameters sent to the individual plots}
 }
