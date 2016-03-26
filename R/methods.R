@@ -1,3 +1,18 @@
+#' Extract model residuals for an ElementRatio object
+#'
+#' get residuals for an ElementRatio object
+#' @param object the object
+#' @param type either response or pearson residuals
+#' @param ... other arguments.
+#' @export
+residuals.ElementRatio <- function(object, type=c("response", "pearson"), ...) {
+  type <- match.arg(type)
+  ff <- fitted(object)
+  res <- object$data$logratio - ff$estimate
+  if(type=="pearson") res <- res/ff$sd
+  res
+}
+
 #' get coefficients for an ElementRatios object
 #'
 #' get coefficients for an ElementRatios object
