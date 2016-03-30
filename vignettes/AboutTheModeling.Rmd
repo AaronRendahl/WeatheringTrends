@@ -15,13 +15,13 @@ The input values for the model are elements measured in pulverized samples of ro
 
 ## Model
 
-$log(y_i) = m(x_i) + \epsilon_i$, where $\epsilon_i \sim N(0, s^2(x_i))$
+$ln(y_i) = m(x_i) + \epsilon_i$, where $\epsilon_i \sim N(0, s^2(x_i))$
 
 $$
 m(x) =
 \begin{cases}
   r-c \text{, for } x < pd\\
-  log\left(e^r - (e^r - e^{r-c}) \frac{d - x}{d - pd}\right) \text{, for } pd \geq x > d\\
+  ln\left(e^r - (e^r - e^{r-c}) \frac{d - x}{d - pd}\right) \text{, for } pd \geq x > d\\
   r \text{, for } x \geq d
 \end{cases}
 $$
