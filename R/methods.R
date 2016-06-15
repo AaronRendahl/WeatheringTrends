@@ -67,11 +67,17 @@ coef.ElementRatio <- function(object, type=c("output","par","par.long"), ...) {
 #' @param morelines also add lines from this ElementRatios object
 #' @param ... additional parameters sent to the individual plots
 #' @export
-plot.ElementRatios <- function(x, morelines=NULL, ...) {
+plot.ElementRatios <- function(x, morelines=NULL, scales=c("sliced", "free"), ...) {
+  scales <- match.arg(scales)
   nm <- length(x)
   ni <- length(x[[1]])
+  if(scales=="sliced") {
+    m <- max(sapply(x, function(xj) sapply(xj, function(xi) diff(range(xi$data$logratio)))))
+  } else if(scales=="free") {
+    m <- NA
+  }
   par(mfrow=c(nm, ni), mar=c(2.5, 2.5, 2, 0))
-  for(i in 1:nm) for(j in 1:ni) plot(x[[i]][[j]], morelines=morelines[[i]][[j]], ...)
+  for(i in 1:nm) for(j in 1:ni) plot(x[[i]][[j]], morelines=morelines[[i]][[j]], range=m, ...)
 }
 
 #' print an ElementRatio object
@@ -145,14 +151,18 @@ addlines <- function(x, sd=1, rotate=TRUE, log=TRUE, ...) {
 plot.ElementRatio <- function(x, morelines=NULL, sd=1,
                               main=paste0(x$mobile, "/", x$immobile),
                               rotate=TRUE, log=TRUE, ci.lty=3,
+                              range=NA,
                               responselabel=if(log) "logratio" else "ratio", ...) {
   depth <- x$data$depth
   ## start with points
   tolog <- if(log) identity else exp
+  rr <- range(x$data$logratio)
+  if(is.na(range)) range <- diff(rr)*1.05
+  lim <- mean(rr) + c(-1,1)*range/2
   if(rotate) {
-    plot(tolog(x$data$logratio), depth, main=main, xlab=responselabel, ylim=rev(range(depth)), ...)
+    plot(tolog(x$data$logratio), depth, main=main, xlab=responselabel, ylim=rev(range(depth)), xlim=lim, ...)
   } else {
-    plot(depth, tolog(x$data$logratio), main=main, ylab=responselabel, ...)
+    plot(depth, tolog(x$data$logratio), main=main, ylab=responselabel, ylim=lim, ...)
   }
   ## add lines
   addlines(x, sd=sd, rotate=rotate, log=log)
