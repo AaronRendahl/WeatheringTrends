@@ -1,0 +1,35 @@
+## ---- echo=FALSE, fig.width=8, fig.height=4------------------------------
+p <- 0.25
+d <- 8
+c <- 1.5
+s1 <- 0.25
+s2 <- 0.3
+r <- 1
+xx <- c(0, seq(2, 8, len=21), 12)
+fit <- WeatheringTrends:::getmsd(x=xx, p=p, d=8, c=c, s1=s1, s2=s2, r=r)
+fit$x <- xx
+fit <- within(fit,{
+  lwr <- estimate - sd
+  upr <- estimate + sd
+})
+par(mfrow=c(1,2), cex=0.8)
+with(fit, {
+  plot(x, estimate, type="l", ylab="log(y)", ylim=c(r-c-s1, r+s2), xaxt="n", yaxt="n", frame=FALSE)
+  lines(x, lwr, lty=2)
+  lines(x, upr, lty=2)
+  ll <- 0.1
+  arrows(x0=d+1,y0=r,y1=r+s2,code=3,len=ll)
+  text(d+1, r+s2/2, expression(s[2]), pos=2)  
+  arrows(x0=p*d-1,y0=r-c,y1=r-c+s1,code=3,len=ll)
+  text(p*d-1, r-c+s1/2, expression(s[1]), pos=2)
+  axis(1, c(p*d, d), labels=c("pd", "d"), las=1)
+  axis(2, c(r-c, r), labels=c("r-c", "r"), las=1)
+})
+with(fit, {
+  plot(x, exp(estimate), type="l", ylab="y", ylim=c(exp(r-c-s1), exp(r+s2)), xaxt="n", yaxt="n", frame=FALSE)
+  lines(x, exp(lwr), lty=2)
+  lines(x, exp(upr), lty=2)
+  axis(1, c(p*d, d), labels=c("pd", "d"), las=1)
+  axis(2, c(exp(r-c), exp(r)), labels=expression(e^(r-c), e^r), las=1)
+})
+
