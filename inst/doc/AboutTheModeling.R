@@ -6,7 +6,7 @@ s1 <- 0.25
 s2 <- 0.3
 r <- 1
 xx <- c(0, seq(2, 8, len=21), 12)
-fit <- WeatheringTrends:::getmsd(x=xx, p=p, d=8, c=c, s1=s1, s2=s2, r=r)
+fit <- WeatheringTrends:::getmsd(x=xx, p=p, d=8, c=c, s1=s1, s2=s2, r=r, loglinear=FALSE)
 fit$x <- xx
 fit <- within(fit,{
   lwr <- estimate - sd
@@ -14,7 +14,7 @@ fit <- within(fit,{
 })
 par(mfrow=c(1,2), cex=0.8)
 with(fit, {
-  plot(x, estimate, type="l", ylab="log(y)", ylim=c(r-c-s1, r+s2), xaxt="n", yaxt="n", frame=FALSE)
+  plot(x, estimate, type="l", ylab="ln(y)", ylim=c(r-c-s1, r+s2), xaxt="n", yaxt="n", frame=FALSE)
   lines(x, lwr, lty=2)
   lines(x, upr, lty=2)
   ll <- 0.1
