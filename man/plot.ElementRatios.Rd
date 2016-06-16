@@ -4,12 +4,15 @@
 \alias{plot.ElementRatios}
 \title{plot an ElementRatios object}
 \usage{
-\method{plot}{ElementRatios}(x, morelines = NULL, ...)
+\method{plot}{ElementRatios}(x, morelines = NULL, scales = c("sliced",
+  "free"), ...)
 }
 \arguments{
 \item{x}{the object}
 
 \item{morelines}{also add lines from this ElementRatios object}
+
+\item{scales}{set axis width; sliced will use same width for all plots, but allow for shifting as needed, free will set each plot differently}
 
 \item{...}{additional parameters sent to the individual plots}
 }

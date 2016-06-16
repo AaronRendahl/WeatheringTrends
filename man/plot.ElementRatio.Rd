@@ -6,7 +6,8 @@
 \usage{
 \method{plot}{ElementRatio}(x, morelines = NULL, sd = 1,
   main = paste0(x$mobile, "/", x$immobile), rotate = TRUE, log = TRUE,
-  ci.lty = 3, responselabel = if (log) "logratio" else "ratio", ...)
+  ci.lty = 3, range = NA, responselabel = if (log) "logratio" else
+  "ratio", ...)
 }
 \arguments{
 \item{x}{object}
@@ -22,6 +23,8 @@
 \item{log}{to put on log scale or not}
 
 \item{ci.lty}{line type of confidence intervals}
+
+\item{range}{how wide the range of the axis should be; set to NA to set automatically}
 
 \item{responselabel}{label of response axis}
 
