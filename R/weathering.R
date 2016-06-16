@@ -11,7 +11,7 @@ getmsd <- function(x, y, p, d, c, s1, s2, r, fit.only=FALSE, r.only=FALSE, logli
   if(loglinear) {
     m[k12] <- -c*tmp
   } else {
-    m[k12] <- log(1 - (1 - exp(-c)) * tmp)
+    m[k12] <- log10(1 - (1 - 10^(-c)) * tmp)
   }
   ## standard deviation
   s <- rep(s2, length(x))

@@ -14,7 +14,7 @@ negloglik <- function(par, depth, logratio, loglinear, ...) {
 #' @param data the data set where these variables are found
 #' @param min.mobile will set zero mobile values to this value (default is the smallest value)
 #' @param profile variables to profile over automatically
-#' @param loglinear allows the linear portion to be linear on the log(ratio) scale instead of the ratio scale
+#' @param loglinear allows the linear portion to be linear on the log10(ratio) scale instead of the ratio scale
 #' @param verbose set verbosity
 #' @param hessian get the hessian from the optimization
 #' @param ... additional parameters sent to \code{ControlElementRatioFit}
@@ -44,7 +44,7 @@ FitElementRatio <- function(mobile, immobile, depth, data,
     mobile[fix] <- min.mobile
     if(verbose) message("set ", sum(fix), " zero observations to the minimum value")
   }
-  logratio <- log(mobile/immobile)
+  logratio <- log10(mobile/immobile)
   control <- ControlElementRatioFit(depth=depth, logratio=logratio, loglinear=loglinear, ...)
   data <- data.frame(depth=depth, logratio=logratio)
   out <- list(data=data, control=control, mobile=name.mobile, immobile=name.immobile, loglinear=loglinear)
