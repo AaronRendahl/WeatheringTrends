@@ -12,33 +12,59 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-## A basic example
+## A basic example fitting a single element pair
 
 ```{r}
 library(WeatheringTrends)
 data(welldata)
-fit1 <- FitElementRatio("Sr", "Zr", "depth.top", welldata)
-fit1$par
-fit1$output
-fit1$confint
+(fit1 <- FitElementRatio("Sr", "Zr", "depth.top", welldata))
 plot(fit1)
+```
+
+```{r}
+coef(fit1)
+coef(fit1, type="par")
+coef(fit1, type="par.long")
 ```
 
 ## Allows for enrichment of elements
 
 Fake this by simply turning around mobile and immobile.
 ```{r}
-fit2 <- FitElementRatio("Zr", "Sr", "depth.top", welldata)
-fit2$par
-fit2$output
+(fit2 <- FitElementRatio("Zr", "Sr", "depth.top", welldata))
 plot(fit2)
 ```
 
 ## Can fit multiple fits at once, turn off profiling of depth for this
 
 ```{r, fig.show='hold', fig.width=8, fig.height=10}
-fits <- FitElementRatios(c("Sr", "Pb", "CaO"), c("Zr", "V"), "depth.top", welldata, profile=FALSE)
+fits <- FitElementRatios(c("Sr", "Pb", "CaO"), c("Zr", "V"), "depth.top", welldata, profile=FALSE, verbose=FALSE)
 plot(fits)
 ```
 
+Can also get coefficients here easily too
+```{r}
+coef(fits)
+coef(fits, type="par")
+coef(fits, type="par.long")
+```
 
+## Testing this out...
+
+Can also change the fit so it's linear on the log(ratio) scale instead of on the ratio scale.
+
+Original method, linear on the ratio scale.
+```{r, fig.width=8, fig.height=4}
+(fita <- FitElementRatio("Sr", "Zr", "depth.top", welldata, profile=FALSE))
+par(mfrow=c(1,2))
+plot(fita)
+plot(fita, log=FALSE)
+```
+
+Or linear on the log scale.
+```{r, fig.width=8, fig.height=4}
+(fitb <- FitElementRatio("Sr", "Zr", "depth.top", welldata, loglinear=TRUE, profile=FALSE))
+par(mfrow=c(1,2))
+plot(fitb)
+plot(fitb, log=FALSE)
+```
