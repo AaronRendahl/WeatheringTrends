@@ -157,7 +157,7 @@ plot.ElementRatio <- function(x, morelines=NULL, sd=1,
                               responselabel=if(log) "logratio" else "ratio", ...) {
   depth <- x$data$depth
   ## start with points
-  tolog <- if(log) identity else 10^
+  tolog <- if(log) identity else function(x) 10^x
   rr <- range(x$data$logratio)
   if(is.na(range)) range <- diff(rr)*1.05
   lim <- mean(rr) + c(-1,1)*range/2

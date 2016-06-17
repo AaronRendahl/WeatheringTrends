@@ -43,7 +43,7 @@ getdata <- function(x, log=TRUE, addnames=FALSE, ...) {
 getlines <- function(x, sd=1, log=TRUE, addnames=FALSE) {
   depth <- x$data$depth
   xx <- c(0, seq(x$output[["depth1"]], x$output[["depth2"]], len=50), max(depth))
-  tolog <- if(log) identity else 10^
+  tolog <- if(log) identity else function(x) 10^x
   x.fit <- fitted.ElementRatio(x, depth=xx)
   x.fit <- cbind(depth=xx, x.fit)
   x.fit$lower <- tolog(x.fit$estimate - sd*x.fit$sd)
@@ -56,7 +56,7 @@ getlines <- function(x, sd=1, log=TRUE, addnames=FALSE) {
 }
 
 getcis <- function(x, log=TRUE, addnames=FALSE) {
-  tolog <- if(log) identity else 10^
+  tolog <- if(log) identity else function(x) 10^x
   cis <- NULL
   if(!is.null(x$confint)) {
     if("d" %in% rownames(x$confint)) {
