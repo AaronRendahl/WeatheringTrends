@@ -34,3 +34,19 @@ par(mfrow=c(1,2))
 plot(fitb)
 plot(fitb, log=FALSE)
 
+## ---- fig.width=8, fig.height=4------------------------------------------
+library(WeatheringTrends)
+data(welldata)
+foo1 <- FitTau("Sr", "Zr", "depth.top", welldata, cutoff=7.5)
+par(mfrow=c(1,2))
+with(foo1$data, {
+  plot(tau, -depth, main="tau")
+  abline(h=-foo1$cutoff, v=0)
+})
+
+foo2 <- FitTau("Sr", "Zr", "depth.top", welldata, cutoff=7.5, log=TRUE)
+with(foo2$data, {
+  plot(tau, -depth, main="tau")
+  abline(h=-foo2$cutoff,v=0)
+})
+
