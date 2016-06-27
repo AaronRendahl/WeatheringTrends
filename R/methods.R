@@ -108,6 +108,8 @@ print.ElementRatio <- function(x, digits=3, ...) {
   print(out)
   cat("\n")
   print(x$output, digits=digits)
+  cat("\n")
+  print(x$s.overall, digits=digits)
 }
 
 #' get fitted values for an ElementRatio object

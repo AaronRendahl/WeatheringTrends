@@ -53,6 +53,7 @@ FitElementRatio <- function(mobile, immobile, depth, data,
   if(!isTRUE(all.equal(profile, FALSE))) {
     for(pp in profile) out <- profile(out, pp)
   }
+  out$s.overall <- c(s.overall=sd(logratio))
   out
 }
 
