@@ -20,7 +20,7 @@ FitElementRatio(mobile, immobile, depth, data, min.mobile, profile = "d",
 
 \item{profile}{variables to profile over automatically}
 
-\item{loglinear}{allows the linear portion to be linear on the log(ratio) scale instead of the ratio scale}
+\item{loglinear}{allows the linear portion to be linear on the log10(ratio) scale instead of the ratio scale}
 
 \item{verbose}{set verbosity}
 
