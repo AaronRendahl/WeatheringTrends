@@ -158,7 +158,7 @@ plot.ElementRatio <- function(x, morelines=NULL, sd=1,
   depth <- x$data$depth
   ## start with points
   tolog <- if(log) identity else function(x) 10^x
-  rr <- range(x$data$logratio)
+  rr <- range(tolog(x$data$logratio))
   if(is.na(range)) range <- diff(rr)*1.05
   lim <- mean(rr) + c(-1,1)*range/2
   if(rotate) {
@@ -170,7 +170,7 @@ plot.ElementRatio <- function(x, morelines=NULL, sd=1,
   addlines(x, sd=sd, rotate=rotate, log=log)
   if(!is.null(morelines)) addlines(morelines, sd=sd, rotate=rotate, log=log, col="red")
   ## add confidence intervals
-  cis <- getcis(x)
+  cis <- getcis(x, log=log)
   if(rotate) {
     xl <- diff(grconvertX(c(0,1), "npc", "user"))
     yl <- diff(grconvertY(c(0,1), "npc", "user"))
