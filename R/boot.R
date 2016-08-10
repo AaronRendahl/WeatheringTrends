@@ -8,8 +8,8 @@
 #' @return a new ElementRatio object, with bootstrapped data
 #' @export
 BootElementRatio <- function(x, hessian=!is.null(x$optim$hessian), ...) {
-  f <- fitted(x)
-  di <- data.frame(depth=x$data$depth, logratio=rnorm(nrow(f), mean=f$estimate, sd=f$sd))
+  f <- stats::fitted(x)
+  di <- data.frame(depth=x$data$depth, logratio=stats::rnorm(nrow(f), mean=f$estimate, sd=f$sd))
   refit(list(data=di, control=ControlElementRatioFit(di$depth, di$logratio, ...),
              mobile=x$mobile, immobile=x$immobile), hessian=hessian)
 }

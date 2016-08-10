@@ -21,9 +21,9 @@ ControlElementRatioFit <- function(depth, logratio, loglinear, p.start=0.2, pd.s
                                    d.start=pd.start*max(depth),
                                    par.start,
                                    lower=c(p=0, d=0.05*max(depth), c=-diff(range(logratio)),
-                                           s1=0.1*sd(logratio), s2=0.1*sd(logratio), r=min(logratio)),
+                                           s1=0.1*stats::sd(logratio), s2=0.1*stats::sd(logratio), r=min(logratio)),
                                    upper=c(p=0.95, d=max(depth), c=diff(range(logratio)),
-                                           s1=sd(range(logratio)), s2=sd(range(logratio)), r=max(logratio)),
+                                           s1=stats::sd(range(logratio)), s2=stats::sd(range(logratio)), r=max(logratio)),
                                    parscale=c(p=1, d=max(depth), c=1, s1=1, s2=1, r=1)
 ) {
   if(missing(par.start)) {
@@ -32,7 +32,7 @@ ControlElementRatioFit <- function(depth, logratio, loglinear, p.start=0.2, pd.s
                    c = c.start)
     fit.start <- do.call("getmsd", c(list(x=depth, y=logratio, loglinear=loglinear, s1=1, s2=1, fit.only=TRUE),
                                      as.list(par.start)))
-    sd.start <- sd(logratio - fit.start)
+    sd.start <- stats::sd(logratio - fit.start)
     sdlo <- max(lower[c("s1", "s2")])
     sdhi <- min(upper[c("s1", "s2")])
     if(sd.start < sdlo | sd.start > sdhi) sd.start <- (sdlo + sdhi) / 2

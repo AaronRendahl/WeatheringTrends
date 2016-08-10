@@ -97,9 +97,9 @@ plot.Tau <- function(x, xlim=NULL, ylim=NULL, main=paste0(x$mobile, "/", x$immob
     xlim <- range(x$data$tau, na.rm=TRUE)
     xlim <- xlim + c(-1,1)*0.05*diff(xlim)
   }
-  plot(x$data$tau, x$data$depth, xlim=xlim, ylim=ylim,
+  graphics::plot(x$data$tau, x$data$depth, xlim=xlim, ylim=ylim,
        main=main, xlab="tau", ylab="depth", ...)
-  abline(h=x$cutoff, v=0)
+  graphics::abline(h=x$cutoff, v=0)
 }
 
 #' plot a Taus object
@@ -119,6 +119,6 @@ plot.Taus <- function(x, scales=c("same", "free"), ...) {
   } else if(scales=="free") {
     xlim <- NULL
   }
-  par(mfrow=c(nm, ni), mar=c(2.5, 2.5, 2, 0))
-  for(i in 1:nm) for(j in 1:ni) plot(x[[i]][[j]], xlim=xlim, ...)
+  graphics::par(mfrow=c(nm, ni), mar=c(2.5, 2.5, 2, 0))
+  for(i in 1:nm) for(j in 1:ni) graphics::plot(x[[i]][[j]], xlim=xlim, ...)
 }

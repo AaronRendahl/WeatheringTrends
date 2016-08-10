@@ -1,7 +1,7 @@
 negloglik <- function(par, depth, logratio, loglinear, ...) {
   fit <- do.call("getmsd", c(list(x=depth, y=logratio, loglinear=loglinear), as.list(par), ...))
   if(any(fit$estimate==-Inf)) {stop("Infinite fit found; cannot continue.")}
-  -sum(dnorm(logratio, mean=fit$estimate, sd=fit$sd, log=TRUE))
+  -sum(stats::dnorm(logratio, mean=fit$estimate, sd=fit$sd, log=TRUE))
 }
 
 #' Fit the element ratio for a single pair
@@ -53,7 +53,7 @@ FitElementRatio <- function(mobile, immobile, depth, data,
   if(!isTRUE(all.equal(profile, FALSE))) {
     for(pp in profile) out <- profile(out, pp)
   }
-  out$s.overall <- c(s.overall=sd(logratio))
+  out$s.overall <- c(s.overall=stats::sd(logratio))
   out
 }
 
@@ -62,12 +62,12 @@ refit <- function(x, hessian=FALSE, ...) {
   n <- setdiff(rownames(x$control), names(x$fixed))
   n <- setdiff(n, "r")
   control <- x$control[n, ]
-  par.start <- setNames(control$par.start, n)
-  if(sd(x$data$logratio)==0) {
+  par.start <- stats::setNames(control$par.start, n)
+  if(stats::sd(x$data$logratio)==0) {
     x$optim <- "No variation, optimization not performed."
     p <- x$par <- c(p=0, d=0, c=0, s1=0, s2=0, r=x$data$logratio[1])
   } else {
-    opt <- optim(par=par.start, fn=negloglik, depth=x$data$depth, logratio=x$data$logratio, ...,
+    opt <- stats::optim(par=par.start, fn=negloglik, depth=x$data$depth, logratio=x$data$logratio, ...,
                  loglinear=x$loglinear,
                  hessian=hessian, method="L-BFGS-B",
                  lower=control$lower, upper=control$upper,

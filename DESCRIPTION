@@ -5,6 +5,8 @@ Authors@R: person("Aaron", "Rendahl", email = "rend0020@umn.edu", role = c("aut"
 Description: Fits Weathering Trends.
 Depends:
     R (>= 3.2.3)
+Imports:
+    graphics, stats
 License: GPL
 LazyData: true
 RoxygenNote: 5.0.1

@@ -22,7 +22,7 @@ getmsd <- function(x, y, p, d, c, s1, s2, r, fit.only=FALSE, r.only=FALSE, logli
     if(any(s==0)) {
       r <- mean((y-m)[s==0])
     } else {
-      r <- weighted.mean(y - m, 1 / s^2)
+      r <- stats::weighted.mean(y - m, 1 / s^2)
     }
   }
   m <- m + r

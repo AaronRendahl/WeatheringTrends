@@ -49,8 +49,8 @@ ControlConstantRatioFit <- function(f) {
 
 FitConstantRatio <- function(f, controlfun, usecor) {
   control <- controlfun(f)
-  par.start <- setNames(control$par.start, rownames(control))
-  opt2 <- optim(par=par.start, fn=neglogliks, fits=f, usecor=usecor)
+  par.start <- stats::setNames(control$par.start, rownames(control))
+  opt2 <- stats::optim(par=par.start, fn=neglogliks, fits=f, usecor=usecor)
   refits(opt2$par, f)
 }
 

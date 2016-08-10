@@ -7,7 +7,7 @@
 #' @export
 residuals.ElementRatio <- function(object, type=c("response", "pearson"), ...) {
   type <- match.arg(type)
-  ff <- fitted(object)
+  ff <- stats::fitted(object)
   res <- object$data$logratio - ff$estimate
   if(type=="pearson") res <- res/ff$sd
   res
@@ -27,7 +27,7 @@ coef.ElementRatios <- function(object, type=c("output","par","par.long"), ...) {
   type <- match.arg(type)
   out <- do.call(rbind, lapply(object, function(x) {
     do.call(rbind, lapply(x, function(y) {
-      coef(y, type=type)
+      stats::coef(y, type=type)
     }))
   }))
   rownames(out) <- NULL
@@ -77,8 +77,8 @@ plot.ElementRatios <- function(x, morelines=NULL, scales=c("sliced", "free"), ..
   } else if(scales=="free") {
     m <- NA
   }
-  par(mfrow=c(nm, ni), mar=c(2.5, 2.5, 2, 0))
-  for(i in 1:nm) for(j in 1:ni) plot(x[[i]][[j]], morelines=morelines[[i]][[j]], range=m, ...)
+  graphics::par(mfrow=c(nm, ni), mar=c(2.5, 2.5, 2, 0))
+  for(i in 1:nm) for(j in 1:ni) graphics::plot(x[[i]][[j]], morelines=morelines[[i]][[j]], range=m, ...)
 }
 
 #' print an ElementRatio object
@@ -127,13 +127,13 @@ fitted.ElementRatio <- function(object, depth=object$data$depth, ...) {
 addlines <- function(x, sd=1, rotate=TRUE, log=TRUE, ...) {
   x.fit <- getlines(x, sd=sd, log=log)
   if(rotate) {
-    lines(x.fit$estimate, x.fit$depth, ...)
-    lines(x.fit$lower, x.fit$depth, lty=2, ...)
-    lines(x.fit$upper, x.fit$depth, lty=2, ...)
+    graphics::lines(x.fit$estimate, x.fit$depth, ...)
+    graphics::lines(x.fit$lower, x.fit$depth, lty=2, ...)
+    graphics::lines(x.fit$upper, x.fit$depth, lty=2, ...)
   } else {
-    lines(x.fit$depth, x.fit$estimate, ...)
-    lines(x.fit$depth, x.fit$lower, lty=2, ...)
-    lines(x.fit$depth, x.fit$upper, lty=2, ...)
+    graphics::lines(x.fit$depth, x.fit$estimate, ...)
+    graphics::lines(x.fit$depth, x.fit$lower, lty=2, ...)
+    graphics::lines(x.fit$depth, x.fit$upper, lty=2, ...)
   }
 }
 
@@ -164,9 +164,9 @@ plot.ElementRatio <- function(x, morelines=NULL, sd=1,
   if(is.na(range)) range <- diff(rr)*1.05
   lim <- mean(rr) + c(-1,1)*range/2
   if(rotate) {
-    plot(tolog(x$data$logratio), depth, main=main, xlab=responselabel, ylim=rev(range(depth)), xlim=lim, ...)
+    graphics::plot(tolog(x$data$logratio), depth, main=main, xlab=responselabel, ylim=rev(range(depth)), xlim=lim, ...)
   } else {
-    plot(depth, tolog(x$data$logratio), main=main, ylab=responselabel, ylim=lim, ...)
+    graphics::plot(depth, tolog(x$data$logratio), main=main, ylab=responselabel, ylim=lim, ...)
   }
   ## add lines
   addlines(x, sd=sd, rotate=rotate, log=log)
@@ -174,24 +174,24 @@ plot.ElementRatio <- function(x, morelines=NULL, sd=1,
   ## add confidence intervals
   cis <- getcis(x, log=log)
   if(rotate) {
-    xl <- diff(grconvertX(c(0,1), "npc", "user"))
-    yl <- diff(grconvertY(c(0,1), "npc", "user"))
-    dx <- diff(grconvertX(c(0, 1), "npc", "inches"))
-    dy <- diff(grconvertY(c(0, 1), "npc", "inches"))
+    xl <- diff(graphics::grconvertX(c(0,1), "npc", "user"))
+    yl <- diff(graphics::grconvertY(c(0,1), "npc", "user"))
+    dx <- diff(graphics::grconvertX(c(0, 1), "npc", "inches"))
+    dy <- diff(graphics::grconvertY(c(0, 1), "npc", "inches"))
     len <- sqrt(dx^2 + dy^2) * 0.01
     if(!is.null(cis)) for(i in seq_len(nrow(cis))) {
-      arrows(y0=cis$x0[i]+cis$xd[i]*yl, y1=cis$x1[i]+cis$xd[i]*yl,
+      graphics::arrows(y0=cis$x0[i]+cis$xd[i]*yl, y1=cis$x1[i]+cis$xd[i]*yl,
              x0=cis$y0[i]+cis$yd[i]*xl, x1=cis$y1[i]+cis$yd[i]*xl,
              code=3, angle=90, length=len, lty=ci.lty)
     }
   } else {
-    xl <- diff(grconvertX(c(0,1), "npc", "user"))
-    yl <- diff(grconvertY(c(0,1), "npc", "user"))
-    dx <- diff(grconvertX(c(0, 1), "npc", "inches"))
-    dy <- diff(grconvertY(c(0, 1), "npc", "inches"))
+    xl <- diff(graphics::grconvertX(c(0,1), "npc", "user"))
+    yl <- diff(graphics::grconvertY(c(0,1), "npc", "user"))
+    dx <- diff(graphics::grconvertX(c(0, 1), "npc", "inches"))
+    dy <- diff(graphics::grconvertY(c(0, 1), "npc", "inches"))
     len <- sqrt(dx^2 + dy^2) * 0.01
     if(!is.null(cis)) for(i in seq_len(nrow(cis))) {
-      arrows(x0=cis$x0[i]+cis$xd[i]*xl, x1=cis$x1[i]+cis$xd[i]*xl,
+      graphics::arrows(x0=cis$x0[i]+cis$xd[i]*xl, x1=cis$x1[i]+cis$xd[i]*xl,
              y0=cis$y0[i]+cis$yd[i]*yl, y1=cis$y1[i]+cis$yd[i]*yl,
              code=3, angle=90, length=len, lty=ci.lty)
     }
