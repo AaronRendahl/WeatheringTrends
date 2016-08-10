@@ -8,32 +8,24 @@
 
 #' Fit the element ratio for a single pair
 #'
-#' \code{FitElementRatio} creates the mobile/immobile ratio and fits it to the depth.
+#' \code{FitTau} creates the mobile/immobile ratio and fits it to the depth.
 #' @param mobile the name of the mobile variable
 #' @param immobile the name of the immobile variable
 #' @param depth the name of the depth variable
 #' @param data the data set where these variables are found
 #' @param cutoff how deep to assume constant
-#' @param log compute on log10 scale or ratio scale
 #' @param verbose set verbosity
 #' @return list with data frame (with depth, ratio, tau) and the mean depth beyond the cutoff
 #' @export
-FitTau <- function(mobile, immobile, depth, data, cutoff, log=FALSE, verbose=TRUE) {
+FitTau <- function(mobile, immobile, depth, data, cutoff, verbose=TRUE) {
   name.mobile <- mobile
   name.immobile <- immobile
   if(verbose) message("fitting ", paste0(name.mobile, "/", name.immobile))
   depth <- data[[depth]]
   mobile <- data[[mobile]]
   immobile <- data[[immobile]]
-  if(!log) {
-    ratio <- mobile/immobile
-    mm <- mean(ratio[depth>=cutoff])
-    tau <- ratio/mm - 1
-    list(data=data.frame(depth=depth, ratio=ratio, tau=tau), meanratio=mm, cutoff=cutoff)
-  } else {
-    ratio <- mobile/immobile
-    mm <- 10^mean(log10(ratio[depth>=cutoff]))
-    tau <- ratio/mm - 1
-    list(data=data.frame(depth=depth, ratio=ratio, tau=tau), meanratio=mm, cutoff=cutoff)
-  }
+  ratio <- mobile/immobile
+  mm <- mean(mobile[depth>=cutoff])/mean(immobile[depth>=cutoff])
+  tau <- ratio/mm - 1
+  list(data=data.frame(depth=depth, ratio=ratio, tau=tau), meanratio=mm, cutoff=cutoff)
 }
