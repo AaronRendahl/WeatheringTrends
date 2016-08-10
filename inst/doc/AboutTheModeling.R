@@ -14,7 +14,7 @@ fit <- within(fit,{
 })
 par(mfrow=c(1,2), cex=0.8)
 with(fit, {
-  plot(x, estimate, type="l", ylab="ln(y)", ylim=c(r-c-s1, r+s2), xaxt="n", yaxt="n", frame=FALSE)
+  plot(x, estimate, type="l", ylab="log(y)", ylim=c(r-c-s1, r+s2), xaxt="n", yaxt="n", frame=FALSE)
   lines(x, lwr, lty=2)
   lines(x, upr, lty=2)
   ll <- 0.1
@@ -26,10 +26,10 @@ with(fit, {
   axis(2, c(r-c, r), labels=c("r-c", "r"), las=1)
 })
 with(fit, {
-  plot(x, exp(estimate), type="l", ylab="y", ylim=c(exp(r-c-s1), exp(r+s2)), xaxt="n", yaxt="n", frame=FALSE)
-  lines(x, exp(lwr), lty=2)
-  lines(x, exp(upr), lty=2)
+  plot(x, 10^(estimate), type="l", ylab="y", ylim=c(10^(r-c-s1), 10^(r+s2)), xaxt="n", yaxt="n", frame=FALSE)
+  lines(x, 10^(lwr), lty=2)
+  lines(x, 10^(upr), lty=2)
   axis(1, c(p*d, d), labels=c("pd", "d"), las=1)
-  axis(2, c(exp(r-c), exp(r)), labels=expression(e^(r-c), e^r), las=1)
+  axis(2, c(10^(r-c), 10^(r)), labels=expression(10^(r-c), 10^r), las=1)
 })
 
