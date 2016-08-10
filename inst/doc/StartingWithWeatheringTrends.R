@@ -35,11 +35,10 @@ plot(fitb)
 plot(fitb, log=FALSE)
 
 ## ---- fig.width=8, fig.height=4------------------------------------------
-library(WeatheringTrends)
-data(welldata)
-foo1 <- FitTau("Sr", "Zr", "depth.top", welldata, cutoff=7.5)
-with(foo1$data, {
-  plot(tau, -depth, main="tau")
-  abline(h=-foo1$cutoff, v=0)
-})
+tau1 <- FitTau("Sr", "Zr", "depth.top", welldata, cutoff=7.5)
+plot(tau1)
+
+## ---- fig.width=6, fig.height=6------------------------------------------
+taus <- FitTaus(c("Sr", "Pb"), c("Zr","V"), "depth.top", welldata, cutoff=c(7.5,12))
+plot(taus)
 

@@ -4,7 +4,7 @@
 \alias{FitTau}
 \title{Fit the element ratio for a single pair}
 \usage{
-FitTau(mobile, immobile, depth, data, cutoff, log = FALSE, verbose = TRUE)
+FitTau(mobile, immobile, depth, data, cutoff, verbose = FALSE)
 }
 \arguments{
 \item{mobile}{the name of the mobile variable}
@@ -17,14 +17,12 @@ FitTau(mobile, immobile, depth, data, cutoff, log = FALSE, verbose = TRUE)
 
 \item{cutoff}{how deep to assume constant}
 
-\item{log}{compute on log10 scale or ratio scale}
-
 \item{verbose}{set verbosity}
 }
 \value{
-list with data frame (with depth, ratio, tau) and the mean depth beyond the cutoff
+Tau object, a list with data frame (with depth, ratio, tau) and the mean depth beyond the cutoff
 }
 \description{
-\code{FitElementRatio} creates the mobile/immobile ratio and fits it to the depth.
+\code{FitTau} creates the mobile/immobile ratio and fits it to the depth.
 }
 
