@@ -1,9 +1,9 @@
 ## ---- echo=FALSE, fig.width=8, fig.height=4------------------------------
 p <- 0.25
 d <- 8
-c <- 1.5
-s1 <- 0.25
-s2 <- 0.3
+c <- 0.6
+s1 <- 0.15
+s2 <- 0.1
 r <- 1
 xx <- c(0, seq(2, 8, len=21), 12)
 fit <- WeatheringTrends:::getmsd(x=xx, p=p, d=8, c=c, s1=s1, s2=s2, r=r, loglinear=FALSE)

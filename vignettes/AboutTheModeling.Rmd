@@ -11,17 +11,17 @@ vignette: >
 ## WeatheringTrends 
 The WeatheringTrends R package is designed to provide a tool for objective selection of parameters for the geochemical mass balance method used to quantify elemental enrichment or depletion of rock and soil (Brimhall & Dietrich 1987). For a mass balance to successfully quantify elemental mass change, the measured materials must meet two criteria: the parent material must be homogeneous prior to enrichment or depletion and the immobile element must be resistant to removal by chemical dissolution or physical mobility. The driving force for the development of WeatheringTrends was to objectively identify depletion or enrichment of bedrock, even when these signatures are muted by natural variability. The package is also designed so the user can compare the concentration of several possible immobile elements and determine which immobile elements are the best fit for each weathering system. 
 
-The input values for the model are elements measured in pulverized samples of rock and/or soil by methods such as Indcutively Coupled Plasma Mass Spectrometry (ICP-MS) or X-Ray Florescensce (XRF). The major and minor rock forming elements used in these analyses commonly include Na, Mg, Al, Si, K, Ca, Ti, Mn, Fe, P, Ba, Ce, Co, Cr, Cu, Hf, La, Nb, Nd, Ni, Pb, Rb, Sc, Sr, Th, V, Y, Zn, and Zr. Among these elements the possible immobile elements include Zr, Ti, Nb, Hf, and sometimes Si. Major elements are commonly reported as a percent on an oxide basis (CaO, SiO<sub>2</sub>), and the minor elements are commonly reported in parts per million. For the purpose of the model the user may choose to normalize these, but this is computationally unnecessary to successfully model the weathering trends. To run the WeatheringTrends model, the $y$ parameter requires a ratio of mobile to immobile elements. The $x$ parameter is the depth below the ground surface where the specimen was sampled, where the ground surface = 0, and postive and negative numbers are allowed for depth values. 
+The input values for the model are elements measured in pulverized samples of rock and/or soil by methods such as Indcutively Coupled Plasma Mass Spectrometry (ICP-MS) or X-Ray Florescensce (XRF). The major and minor rock forming elements used in these analyses commonly include Na, Mg, Al, Si, K, Ca, Ti, Mn, Fe, P, Ba, Ce, Co, Cr, Cu, Hf, La, Nb, Nd, Ni, Pb, Rb, Sc, Sr, Th, V, Y, Zn, and Zr. Among these elements the possible immobile elements include Zr, Ti, Nb, Hf, and sometimes Si. Major elements are commonly reported as a percent on an oxide basis (CaO, SiO<sub>2</sub>), and the minor elements are commonly reported in parts per million. For the purpose of the model the user may choose to normalize these, but this is computationally unnecessary to successfully model the weathering trends. To run the WeatheringTrends model, the $y$ parameter requires a ratio of mobile to immobile elements. The $x$ parameter is the depth below the ground surface where the specimen was sampled, where the ground surface = 0, and positive and negative numbers are allowed for depth values. 
 
 ## Model
 
-$log(y_i) = m(x_i) + \epsilon_i$, where $\epsilon_i \sim N(0, s^2(x_i))$
+$\log(y_i) = m(x_i) + \epsilon_i$, where $\epsilon_i \sim N(0, s^2(x_i))$
 
 $$
 m(x) =
 \begin{cases}
   r-c \text{, for } x < pd\\
-  log\left(10^r - (10^r - 10^{r-c}) \frac{d - x}{d - pd}\right) \text{, for } pd \geq x > d\\
+  \log\left(10^r - (10^r - 10^{r-c}) \frac{d - x}{d - pd}\right) \text{, for } pd \leq x < d\\
   r \text{, for } x \geq d
 \end{cases}
 $$
@@ -30,7 +30,7 @@ $$
 s(x) =
 \begin{cases}
   s_1 \text{, for } x < pd\\
-  s_2 - (s_2 - s_1) \frac{d - x}{d - pd} \text{, for } pd \geq x > d\\
+  s_2 - (s_2 - s_1) \frac{d - x}{d - pd} \text{, for } pd \leq x < d\\
   s_2 \text{, for } x \geq d
 \end{cases}
 $$
@@ -38,9 +38,9 @@ $$
 ```{r, echo=FALSE, fig.width=8, fig.height=4}
 p <- 0.25
 d <- 8
-c <- 1.5
-s1 <- 0.25
-s2 <- 0.3
+c <- 0.6
+s1 <- 0.15
+s2 <- 0.1
 r <- 1
 xx <- c(0, seq(2, 8, len=21), 12)
 fit <- WeatheringTrends:::getmsd(x=xx, p=p, d=8, c=c, s1=s1, s2=s2, r=r, loglinear=FALSE)
@@ -72,10 +72,10 @@ with(fit, {
 ```
 The model input, $y$, is a ratio of mobile:immoble element. As the model fits the set of element ratios along $y$, it finds the best fit for two segments of line and calculates the standard deviation at each line segment. We report the depth at each line break, which may represent the depth influence of processes that may deplete or enrich the elements. We also report the confidence interval at the deepest slope break.
 
-Where we define the variables as follows:  
+The variables are defined as follows:  
+
 * $d$ is the depth at the deepest slope break  
-* $pd$ is the depth at the shallowest slope break, where $p$ is a fraction of $d$  
-* $r$ is the value of $ln(y)$ at the deepest slope break where  
-* $y = e^r$ and $r$ = mobile:immobile  
-* $r-c$ is the difference in $ln(y)$ between the two slope breaks  
-* $s_1$ and $s_2$ are the standard deviations of $ln(y)$ before the first slope break and after the second slope break, respectively
+* $pd$ is the depth at the shallowest slope break, where $p$ is a fraction of $d$
+* $r$ is the value of $log(y)$ at the deepest slope break
+* $r-c$ is the difference in $log(y)$ between the two slope breaks  
+* $s_1$ and $s_2$ are the standard deviations of $log(y)$ before the first slope break and after the second slope break, respectively
