@@ -21,13 +21,13 @@ FitTau <- function(mobile, immobile, depth, data, cutoff, verbose=FALSE) {
   name.mobile <- mobile
   name.immobile <- immobile
   if(verbose) message("fitting ", paste0(name.mobile, "/", name.immobile))
-  depth <- data[[depth]]
-  mobile <- data[[mobile]]
-  immobile <- data[[immobile]]
-  ratio <- mobile/immobile
-  mm <- mean(mobile[depth>=cutoff])/mean(immobile[depth>=cutoff])
+  dat <- data[,c(depth, mobile, immobile)]
+  names(dat) <- c("depth", "mobile", "immobile")
+  dat <- dat[complete.cases(dat),]
+  ratio <- with(dat, mobile/immobile)
+  mm <- with(dat, mean(mobile[depth>=cutoff])/mean(immobile[depth>=cutoff]))
   tau <- ratio/mm - 1
-  out <- list(data=data.frame(depth=depth, ratio=ratio, tau=tau),
+  out <- list(data=data.frame(depth=dat$depth, ratio=ratio, tau=tau),
               meanratio=mm, cutoff=cutoff, mobile=name.mobile, immobile=name.immobile)
   class(out) <- c("Tau", class(out))
   out
