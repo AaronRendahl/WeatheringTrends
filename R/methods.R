@@ -68,7 +68,7 @@ coef.ElementRatio <- function(object, type=c("output","par","par.long"), ...) {
 #' @param scales set axis width; sliced will use same width for all plots, but allow for shifting as needed, free will set each plot differently
 #' @param ... additional parameters sent to the individual plots
 #' @export
-plot.ElementRatios <- function(x, morelines=NULL, scales=c("sliced", "free"), ...) {
+plot.ElementRatios <- function(x, morelines=NULL, scales=c("sliced", "free"), mar=c(2.5, 2.5, 2, 0), ...) {
   scales <- match.arg(scales)
   nm <- length(x)
   ni <- length(x[[1]])
@@ -77,7 +77,8 @@ plot.ElementRatios <- function(x, morelines=NULL, scales=c("sliced", "free"), ..
   } else if(scales=="free") {
     m <- NA
   }
-  graphics::par(mfrow=c(nm, ni), mar=c(2.5, 2.5, 2, 0))
+  graphics::par(mfrow=c(nm, ni))
+  graphics::par(mar=mar)
   for(i in 1:nm) for(j in 1:ni) graphics::plot(x[[i]][[j]], morelines=morelines[[i]][[j]], range=m, ...)
 }
 
