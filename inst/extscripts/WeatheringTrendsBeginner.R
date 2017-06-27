@@ -18,12 +18,12 @@
 # 2) or place your cursor at the end of the script line and press the "Run" button
 # 3) or do either of the above and instead of pressing the "Run" button you may
 # press Command-Enter (Macs) or Control-Enter (Windows).
-library(WeatheringTrends)
+library(WeatheringTrends) # open package once per R session
 # This will not produce a response in the console window. In this case, no news is good news.
 # If you have a new empty prompt ">", then the package loaded correctly.
 
 # As above, load ggplot2, which is a package required by Weathering Trends.
-library(ggplot2)
+library(ggplot2) # open package once per R session
 
 ################ Import Data File ################
 # If your working directory is ~/WeatheringTrends/, you may import the data file by selecting
@@ -49,14 +49,16 @@ View(WTexampleLP)
 # row for column names, changing column data type (numeric, character, categorical,
 # logical (true/fasle), etc.).
 
-
+################ Subset Data ################
 # Subset data to work with one site at a time using WTexampleLP.csv.
 well1 <- subset(WTexampleLP, Site=="LP_Well1")
 well2 <- subset(WTexampleLP, Site=="LP_Well2")
 
-# An example plot to test data import. Select both lines to capture full command.
+################ Plot Data ################
+# An example plot to test data import. Select both lines before pressing "Run" to capture
+# the full command.
 # In RStudio the plot will display in a window called "Plots", which is separate from
-# the Console or the script quadrant.
+# the Console or the script windows. You may resize all RStudio windows to your preference.
 ggplot(well1) + scale_y_reverse() +
   geom_point(aes(x=CaO, y=voBottom/100, colour=Site))
 
@@ -74,16 +76,18 @@ ggplot(well1) + scale_y_reverse() +
 # input is the name of the data set. In the example case we use the subset
 # data for Well 1, called "well1". We assign the whole function result a new variable name,
 # which we will use to display the results.
-# To run this function, first assign the mobile elements by selecting all lines or by
-# inserting your curser after the closing parenthesis and pressing Run.
-# This function will require a few minutes to process if you use the full list of elements,
-# and the function will display its progress and make a note of any missing data.
 
-mm <- c("Na2O", "MgO", "Al2O3", "SiO2", "K2O",
-        "CaO", "MnO", "Fe2O3", "P2O5")
-ii <- c("Zr_ppm", "TiO2", "Hf_ppm", "Nb_ppm")
+# To run FitElementRatios function, first assign the mobile elements as "mm".
+mm <- c("Na2O", "MgO", "CaO", "Fe2O3")
+
+# Next assign the immobile elements as "ii".
+ii <- c("Zr_ppm", "Nb_ppm")
+
+# This function will require a few minutes to process and the function will display its progress
+# and note of any missing data or zero values, which will be set to the lowest value of it's type
+# because we cannot have log(0). The best practice is to set all zero values to the detection limit
+# for each element. We left them as zero values so you can see how the model handles this "error".
 well1rock <- FitElementRatios(mm, ii, "voBottom", well1)
-# This may take a few minutes to process.
 
 # Here's the full version used for Fisher et al., 2017:
 mm <- c("Na2O", "MgO", "Al2O3", "SiO2", "K2O",
@@ -96,20 +100,28 @@ mm <- c("Na2O", "MgO", "Al2O3", "SiO2", "K2O",
 ii <- c("Zr_ppm", "TiO2", "Hf_ppm", "Nb_ppm")
 well1rock <- FitElementRatios(mm, ii, "voBottom", well1)
 
-################ WT Plot to PDF ################
-# Plot Weathering Trends model results to a pdf file. Select all three lines and press
-# Run. You may adjust the height and width to your preference. You will find the pdf in
-# your current working directory.
-# Reminder: To find your working directory at any point use the follwoing command:
-getwd()
+################ WT Plot to window in RStudio ################
+# To plot the results of the WT model run, select the command below and select "Run".
+plot(well1rock, scales="sliced")
 
 # The horizontal scale is set by the user according to the following:
 # plot(fits, scales="sliced") applies the same horizontal scale range to all plots
 # plot(fits, scales="free") makes scales fit each individual plot
 
-# This plots 20 x 8 (inches), which works well to plot 9 mobile elements (height)
-# by 4 immobile elements (width).
-pdf("well1rock_todaysdate.pdf", height=20, width=8)
+# Note, if the plot is too large for your plot window, you will receive an error message.
+# To overcome this error, one solution is to plot directly to a PDF file, as instructed below.
+
+################ WT Plot to PDF ################
+# Because the Plot view window is limited by your screen dimensions, we overcome this
+# by creating a PDF vector graphic file of the model output. This plot is editable in
+# vector graphics software (e.g. Adobe Illustrator).
+# To plot Weathering Trends model results to a PDF file in your current working directory,
+# recall that you find your working directory use the following command:
+getwd()
+
+# This plots 8.5 x 4 (inches), which works well to plot 4 mobile elements (height)
+# by 2 immobile elements (width).
+pdf("well1rock_todaysdate.pdf", height=8.5, width=4)
 plot(well1rock, scales="sliced")
 dev.off()
 
@@ -137,9 +149,7 @@ write.csv(as.data.frame(coef(well1rock,type="par.long")),file="well1rockCI_today
 # To print (or list) directly in the console window:
 coef(well1rock, type="par")
 # To print a csv to your working directory (edit the file name):
-write.csv(as.data.frame(coef(well1rock,type="par")),file="well1rockPARtodaysdate.csv") ## to csv
-
-
+write.csv(as.data.frame(coef(well1rock,type="par")),file="well1rockPAR_todaysdate.csv") ## to csv
 
 ################ FitTaus Function ################
 # FitTaus is a function that plots fractional mass change to the data.
@@ -174,35 +184,41 @@ taus1 <- FitTaus(c("Na2O", "MgO", "Al2O3", "SiO2", "K2O",
 
 taus1 <- FitTaus(mm, ii, "voBottom", well1, cutoff=c(1230))
 
-# Select the four lines below to print the plots to a PDF. You may adjust the
-# height and width to your preference. The example set is 60 x 8 (inches), which
-# worked well to plot 25 mobile elements (height) by 4 immobile elements (width).
+# To plot within RStudio:
+plot(taus1, scales="free")
 
-pdf("taus1printAll2.pdf", height=60, width=8)
+# Select the three lines below to print the plots to a PDF. You may adjust the
+# height and width to your preference. The example set is 8.5 x 4 (inches), which
+# was sufficient to plot 4 mobile elements (height) by 2 immobile elements (width).
+
+pdf("taus1printAll_todaysdate.pdf", height=8.5, width=4)
 plot(taus1, scales="free")
 dev.off()
-
 
 ################ Statistics of element concentrations ################
 # The functions below are not part of Weathering Trends. They are either native
 # to R or contained in an installed R package. We include these to demonstrate
 # how we examined the correlation between elements in Fisher et al., 2017.
+# For these examples, "Run" one line of code at a time, in the sequence shown because
+# successive computations build on previous definitions.
 
-##subset data
+# Install and load "pastecs" library.
+install.packages("pastecs") # install only once
+library(pastecs) # open package once per R session
+
+# subset data
 well1cor <- subset(WTexampleLP, Site=="LP_Well1")
 well2cor <- subset(WTexampleLP, Site=="LP_Well2")
 
-## for Pearson correlation, r
+# for Pearson correlation, r
 plot(well1cor$Nb_ppm, well1cor$TiO2)
 y=well1cor$TiO2
 x=well1cor$Nb_ppm
 abline(lm(y~x))
 cor(well1cor$Nb_ppm, well1cor$TiO2)
-##for p value
+# for p value
 cor.test(well1cor$Nb_ppm, well1cor$TiO2)$p.value
-##to get n
-install.packages("pastecs") # install only once
-library(pastecs) # open package once per R session
+# to get n, which is listed as "nbr.val" in the "stat.desc" result.
 stat.desc(well1cor$Nb_ppm)
 
 plot(well1cor$Zr_ppm, well1cor$Hf_ppm)
@@ -213,21 +229,18 @@ cor(well1cor$Zr_ppm, well1cor$Hf_ppm)
 cor.test(well1cor$Zr_ppm, well1cor$Hf_ppm)$p.value
 stat.desc(well1cor$Zr_ppm)
 
-## immobile element Coefficient of Variation (CV)
-# Well 1:
+## immobile element Coefficient of Variation (CV) or relative standard deviation
+# Well 1, element Nb
 well1immobile <- FitElementRatio("Nb_ppm", "one", "voBottom", well1cor)
-print(well1immobile$s.overall)
-mean(well1cor$Nb_ppm)
-## coefficient of variation of immobile
+print(well1immobile$s.overall) # standard deviation for the element Nb, you may skip this step
+mean(well1cor$Nb_ppm) # mean of element Nb, you may skip this step
+# coefficient of variation of element Nb is a computation using two codes above
 well1immobile$s.overall/mean(well1cor$Nb_ppm)*100
 
 ## immobile element Coefficient of Variation (CV)
-# Well 2:
+# Well 2, element Nb
 well2immobile <- FitElementRatio("Nb_ppm", "one", "voBottom", well2cor)
 print(well2immobile$s.overall)
 mean(well2cor$Nb_ppm)
 ## coefficient of variation of immobile
 well2immobile$s.overall/mean(well2cor$Nb_ppm)*100
-
-
-
