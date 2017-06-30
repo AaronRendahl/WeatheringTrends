@@ -1,0 +1,351 @@
+---
+title: "Weathering Trends for Beginners in R"
+author: "Beth Fisher"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    fig_width: 6
+    fig_height: 6
+vignette: >
+  %\VignetteIndexEntry{Weathering Trends for Beginners in R}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r, include=FALSE}
+knitr::opts_chunk$set(prompt=TRUE, comment=NA)
+options(width=120)
+```
+
+## Getting Ready to Use WeatheringTrends
+If you are new to the R programming language and software environment (https://www.r-project.org/), we recommend using RStudio Desktop (https://www.rstudio.com/ open-source edition) Integrated Development Environment (IDE), which makes R easier to use. This tutorial gives instructions for RStudio. 
+
+After both R and RStudio are installed on your computer, you may find the Weathering Trends package in a GitHub repository at https://github.com/fisherba/WeatheringTrends. To install Weathering Trends (WT) you may either download and unzip the package from the GitHub repository, or you may directly install it from the R environment using the commands listed below. With either installation approach, please be certain that your installation directory does not contain spaces or special characters, and be aware that R is case-sensitive. 
+
+GitHub allows scripts and content to be modified and refined over time, while tracking all revisions and their contributors. To allow repeatable data analysis, we note the software version (called a “release”) used for model calculations, and users can return to previous Weathering Trends versions, if necessary. The release history for Weathering Trends is available at https://github.com/fisherba/WeatheringTrends/releases, and for the present publication we are using Weathering Trends v1.0.0. 
+
+After following the installation instructions for R and RStudio (provided by their respective project developers), below are the steps to get started with Weathering Trends in RStudio.
+
+1.	In RStudio copy and paste the following command line to install a package called devtools, which enables installations directly from GitHub: 
+```{r, eval=FALSE}
+     install.packages("devtools") 
+```
+2.	Install the WeatheringTrends package directly from GitHub using the following command line: 
+```{r, eval=FALSE}
+     devtools::install_github("fisherba/WeatheringTrends")
+```
+3.	Install the “grammar of graphics” package, which is a package that helps make nice plots.
+```{r, eval=FALSE}
+     install.packages("ggplot2")
+```
+
+To organize your files and your commands, we recommend that you create a “project” in RStudio under File > New Project. Place the project in a location that works for your computer, and be sure that dash and underscore are the only special characters you use (case-sensitive, no spaces, no special characters). The rules about spaces and special characters also apply to your row and column headers in your data files. 
+
+A tutorial R script (WeatheringTrendsBeginner.R) and sample data file (WTexampleLP.csv) have been included with the package. A script (“.R”) file is where you store scripts and comments in the R environment, which will enable you to repeat commands and plots. “WeatheringTrendsBeginner.R” contains detailed instructions for importing and exploring data within Weathering Trends, and scripts to run and plot the Weathering Trends model, fractional mass change (tau) calculations, and some statistical comparisons native to R.
+
+To copy this tutorial R script to the project you just created, in RStudio (within the project you just created), run this command in the Console. If it worked, it will output "[1] TRUE" (not shown).
+
+```{r, eval=FALSE}
+file.copy(system.file(package="WeatheringTrends", "extscripts", "WeatheringTrendsBeginner.R"), ".")
+```
+
+Now, to open this WeatheringTrendsBeginner.R tutorial file, click on the "Files" tab in the lower right pane to see a list of files, and click on WeatheringTrendsBeginner.R. It will open in the upper left pane.
+
+Links to all documentation for WeatheringTrends can be seen by running this command.
+```{r, eval=FALSE}
+help(package="WeatheringTrends")
+```
+This vignette can be opened by running
+```{r, eval=FALSE}
+vignette("WeatheringTrendsBeginnerR", "WeatheringTrends")
+```
+
+If you have questions or concerns about the Weathering Trends R package, you may request help by creating an “issue” in the GitHub repository at https://github.com/fisherba/WeatheringTrends/issues.
+
+
+## Using WeatheringTrends
+
+Once you have the WeatheringTrendsBeginner.R file open,
+to use any of the scripts from the file, select the text of the script
+and press the "Run" button at the top of the script window. In some cases
+you will select multiple lines of script at one time. If the line contains
+a hash (#), all text to the right of the hash is "comment" and will not run
+as script. The script will run in a separate window, called "Console", which
+should be a visible window in RStudio. The console will show you which scripts have
+been run and will sometimes monitor progress (depending on the script) and will
+display error messages, if any.
+
+### Load Necessary Packages
+To open (or "load") Weathering Trends package you have a few options:
+
+1) select the line of script below and press the "Run" button at the top of the script window
+2) or place your cursor at the end of the script line and press the "Run" button
+3) or do either of the above and instead of pressing the "Run" button you may press Command-Enter (Macs) or Control-Enter (Windows).
+```{r}
+library(WeatheringTrends) # load package once per R session
+```
+This will not produce a response in the console window. In this case, no news is good news.
+If you have a new empty prompt ">", then the package loaded correctly.
+
+As above, load ggplot2, which is a package that helps make nice plots.
+```{r}
+library(ggplot2) # load package once per R session
+```
+
+### Import Data File
+
+First, we will copy the sample data file from the package to the current directory. To first find (or confirm) your working directory use the following command. Output is not shown as it depends on your installation.
+```{r, eval=FALSE}
+getwd()
+```
+
+This command will copy the sample data file (WTexampleLP.csv) from the package to your R project. If you open the project later, this command need not be rerun, and in fact, if the file already exists, will not copy over it. It will again output "[1] TRUE" if it worked (not shown).
+```{r, eval=FALSE}
+file.copy(system.file(package="WeatheringTrends", "extdata", "WTexampleLP.csv"), ".")
+```
+
+This command will then import the data file into R.
+```{r, eval=FALSE}
+WTexampleLP <- read.csv("WTexampleLP.csv")
+```
+
+```{r, echo=FALSE}
+## for vignette, read file directly instead
+WTexampleLP <- read.csv(system.file(package="WeatheringTrends", "extdata", "WTexampleLP.csv"))
+```
+
+This command will open the data set for viewing; by default it will appear in the same
+pane as your .R scripts. After you view the file, use the tabs at the top of the pane to navigate back to the tutorial script.
+
+```{r, eval=FALSE}
+View(WTexampleLP)
+```
+
+If the file you want to import is not in the current directory, you can specify a full path to the read.csv command, or you can also import data from the menu: File > Import Dataset > From CSV to select your data file. This will open a dialogue box where you select "Browse" and navigate through your file system to select the data file. In the dialogue box, check the following options: First Row as Names, Trim Spaces, Open Data Viewer. Also select Delimiter: Comma. In the box that says "Name:" be sure it says "dataset". In the "Skip:" box, enter "0". Finally, select the "Import" button and the data file will be viewable in a tab beside this ".R" file.
+
+Note: using the menu to import files will generate code for you and offers most of the import options in R, inlcuding renaming the data set, skipping the first N rows, using the header row for column names, changing column data type (numeric, character, categorical, logical (true/false), etc.).
+
+### Subset data
+Subset data to work with one site at a time using WTexampleLP.csv.
+```{r}
+well1 <- subset(WTexampleLP, Site=="LP_Well1")
+well2 <- subset(WTexampleLP, Site=="LP_Well2")
+```
+
+## Plot data
+An example plot to test data import. In the script, select both lines before pressing "Run" to capture the full command. In RStudio the plot will display in a window called "Plots", which is separate from the Console or the script windows. You may resize all RStudio windows to your preference.
+```{r, fig.width=4, fig.height=3}
+ggplot(well1) + scale_y_reverse() +
+  geom_point(aes(x=CaO, y=voBottom/100, colour=Site))
+```
+
+### FitElementRatios Function
+FitElementRatios is a function to find the best fit trendline for element ratios
+over all depth intervals measured. This function will output the depth to bedrock,
+or the depth to a consistent concentration of element ratios, with confidence
+intervals on that depth. In the function definition, mobile elements are assigned as "mm"
+in a concatenated list. The items in this list must exactly match the column
+headers in your data. Immobile elements are assigned as "ii" in a separate list.
+These two lists are required in the function, followed by which column to use for depth
+which will automatically plot with the smallest value at the top, meaning that
+the model expects depth to be a positive number such as 450 cm instead of -450 cm. The next
+input is the name of the data set. In the example case we use the subset
+data for Well 1, called "well1". We assign the whole function result to a new variable name,
+which we will use to display the results.
+
+To run FitElementRatios function, first assign the mobile elements as "mm".
+```{r}
+mm <- c("Na2O", "MgO", "CaO", "Fe2O3")
+```
+
+Next assign the immobile elements as "ii".
+```{r}
+ii <- c("Zr_ppm", "Nb_ppm")
+```
+
+This function will require a few minutes to process and the function will display its progress
+and note of any missing data or zero values, which will be set to the lowest value of it's type
+because we cannot have log(0). The best practice is to set all zero values to the detection limit
+for each element. We left them as zero values so you can see how the model handles this "error".
+```{r, fitmodels}
+well1rock <- FitElementRatios(mm, ii, "voBottom", well1)
+```
+
+Here's the full version used for Fisher et al., 2017 (output not shown).
+```{r, eval=FALSE}
+mm_full <- c("Na2O", "MgO", "Al2O3", "SiO2", "K2O",
+        "CaO", "MnO", "Fe2O3", "P2O5",
+        "Ba_ppm", "Ce_ppm", "Co_ppm", "Cr_ppm",
+        "Cu_ppm", "La_ppm", "Nd_ppm", "Ni_ppm",
+        "Pb_ppm", "Rb_ppm", "Sc_ppm", "Sr_ppm",
+        "Th_ppm", "V_ppm", "Y_ppm", "Zn_ppm")
+ii_full <- c("Zr_ppm", "TiO2", "Hf_ppm", "Nb_ppm")
+well1rock_full <- FitElementRatios(mm_full, ii_full, "voBottom", well1)
+```
+
+### WT Plot to window in RStudio
+This command will plot the results of the WT model run.
+```{r}
+plot(well1rock, scales="sliced")
+```
+
+The horizontal scale is set by the user according to the following:
+```{r, eval=FALSE}
+plot(well1rock, scales="sliced") # applies the same horizontal scale range to all plots
+plot(well1rock, scales="free") # makes scales fit each individual plot
+```
+
+Note, if the plot is too large for your plot window, you will receive an error message.
+To overcome this error, one solution is to plot directly to a PDF file, as instructed below.
+
+### WT Plot to PDF
+Because the Plot view window is limited by your screen dimensions, we overcome this
+by creating a PDF vector graphic file of the model output. This plot is editable in
+vector graphics software (e.g. Adobe Illustrator).
+To plot Weathering Trends model results to a PDF file in your current working directory,
+recall that you find your working directory use the following command:
+```{r, eval=FALSE}
+getwd()
+```
+
+This plots 8.5 x 4 (inches), which works well to plot 4 mobile elements (height)
+by 2 immobile elements (width).
+```{r, eval=FALSE}
+pdf("well1rock_todaysdate.pdf", height=8.5, width=4)
+plot(well1rock, scales="sliced")
+dev.off()
+```
+
+The full version example is 60 x 8 (inches), which worked well to plot 25 mobile
+elements (height) by 4 immobile elements (width).
+```{r, eval=FALSE}
+pdf("well1rock_full_todaysdate.pdf", height=60, width=8)
+plot(well1rock_full, scales="sliced")
+dev.off()
+```
+
+### WT Numerical Outputs 
+To output a table of numerical values from the Weathering Trends model use the
+"coef" function to receive depth1, depth2, logratio1, logratio2, s1, and s2.
+To print (or list) directly in the console window:
+```{r}
+coef(well1rock, type="output")
+```
+To print a csv to your working directory (edit the file name):
+```{r, eval=FALSE}
+write.csv(coef(well1rock, type="output"), file="well1rockoutput_todaysdate.csv", row.names=FALSE)
+```
+
+#### Confidence intervals
+To print (or list) directly in the console window:
+```{r}
+coef(well1rock, type="par.long")
+```
+To print a csv to your working directory (edit the file name):
+```{r, eval=FALSE}
+write.csv(coef(well1rock,type="par.long"), file="well1rockCI_todaysdate.csv", row.names=FALSE)
+```
+
+#### Output of p, d, c, s1, s2, r
+To print (or list) directly in the console window:
+```{r}
+coef(well1rock, type="par")
+```
+To print a csv to your working directory (edit the file name):
+```{r, eval=FALSE}
+write.csv(coef(well1rock,type="par"), file="well1rockPAR_todaysdate.csv", row.names=FALSE)
+```
+
+### FitTaus Function
+FitTaus is a function that plots fractional mass change to the data.
+Mobile elements are presented in a concatenated list first, followed
+by immobile elements. After the two concatenated element lists, the
+function requests which column to use for depth, which will automatically
+plot with the smallest value at the top, meaning that the model expects
+depths to be positive numbers such as 450 cm instead of -450 cm. The next
+input is the name of the data. In the example case we use the subset data for
+Well 1, which we already assigned "well1". Finally, we specify the depth to bedrock
+for Tau as the "cutoff" value. All element concentrations below the "cutoff"
+depth will be averaged and the average value is defined as the parent material
+for the Tau calculations at each interval.
+
+Using Weathering Trends we determined that the depth to bedrock for our sample
+dataset were: well 1 at 12.3 m (1230 cm) and well 2 at 7.2 m (720 cm)
+and we will use these depths in the fractional mass change (tau) function
+that has been coded in the Weathering Trends model.
+
+```{r}
+taus1 <- FitTaus(c("Na2O", "MgO", "CaO", "Fe2O3"),
+                 c("Zr_ppm", "Nb_ppm"),
+                 "voBottom", well1, cutoff=1230)
+```
+
+You may also use the previously defined lists of mobile (mm) and immobile (ii)
+elements within the FitTaus function.
+
+```{r}
+taus1 <- FitTaus(mm, ii, "voBottom", well1, cutoff=1230)
+```
+
+To plot within RStudio:
+```{r}
+plot(taus1, scales="free")
+```
+
+These three lines print the plots to a PDF. You may adjust the
+height and width to your preference. The example set is 8.5 x 4 (inches), which
+was sufficient to plot 4 mobile elements (height) by 2 immobile elements (width).
+
+```{r, eval=FALSE}
+pdf("taus1_todaysdate.pdf", height=8.5, width=4)
+plot(taus1, scales="free")
+dev.off()
+```
+
+### Statistics of element concentrations
+The code below demonstrates how we examined the correlation between
+elements in Fisher et al., 2017.
+For these examples, "Run" one line of code at a time, in the sequence shown because
+successive computations build on previous definitions.
+
+#### for Pearson correlation, r
+a plot with regression line added
+```{r, fig.width=3, fig.height=3}
+plot(TiO2 ~ Nb_ppm, data=well1)
+abline(lm(TiO2 ~ Nb_ppm, data=well1))
+```
+
+output correlation and p value
+```{r}
+cor.test(~ TiO2 + Nb_ppm, data=well1)
+```
+
+to get n, this counts how many are non-missing
+```{r}
+sum(complete.cases(well1[c("TiO2", "Nb_ppm")]))
+```
+
+#### another Pearson correlation example
+```{r, fig.width=3, fig.height=3}
+plot(Zr_ppm ~ Hf_ppm, data=well1)
+abline(lm(Zr_ppm ~ Hf_ppm, data=well1))
+cor.test(~ Zr_ppm + Hf_ppm, data=well1)
+sum(complete.cases(well1[,c("Zr_ppm", "Hf_ppm")]))
+```
+
+#### immobile element Coefficient of Variation (CV) or relative standard deviation
+Well 1, element Nb
+```{r}
+well1immobile <- FitElementRatio("Nb_ppm", "one", "voBottom", well1)
+well1immobile$s.overall # display standard deviation for the element Nb, you may skip this step
+mean(well1$Nb_ppm) # mean of element Nb, you may skip this step
+# coefficient of variation of element Nb is a computation using two codes above
+well1immobile$s.overall/mean(well1$Nb_ppm)*100
+```
+
+Well 2, element Nb
+```{r}
+well2immobile <- FitElementRatio("Nb_ppm", "one", "voBottom", well2)
+well2immobile$s.overall
+mean(well2$Nb_ppm)
+well2immobile$s.overall/mean(well2$Nb_ppm)*100
+```
