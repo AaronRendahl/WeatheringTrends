@@ -110,6 +110,8 @@ plot.Tau <- function(x, xlim=NULL, ylim=NULL, main=paste0(x$mobile, "/", x$immob
 #' @param ... additional parameters sent to the individual plots
 #' @export
 plot.Taus <- function(x, scales=c("same", "free"), ...) {
+  op <- par("mfrow", "mar")
+  on.exit(par(op))
   scales <- match.arg(scales)
   nm <- length(x)
   ni <- length(x[[1]])

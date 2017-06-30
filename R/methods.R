@@ -69,6 +69,8 @@ coef.ElementRatio <- function(object, type=c("output","par","par.long"), ...) {
 #' @param ... additional parameters sent to the individual plots
 #' @export
 plot.ElementRatios <- function(x, morelines=NULL, scales=c("sliced", "free"), mar=c(2.5, 2.5, 2, 0), ...) {
+  op <- par("mfrow", "mar")
+  on.exit(par(op))
   scales <- match.arg(scales)
   nm <- length(x)
   ni <- length(x[[1]])
