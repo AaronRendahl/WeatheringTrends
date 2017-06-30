@@ -13,6 +13,8 @@
 # http://htmlpreview.github.io/?https://github.com/fisherba/WeatheringTrends/blob/master/inst/doc/WeatheringTrendsBeginnerR.html
 # or if you have R and Weathering Trends installed, by running this command.
 vignette("WeatheringTrendsBeginnerR", package="WeatheringTrends")
+
+# To see a demonstration of all commands in this script, see the above vignette.
 # Links to all documentation for WeatheringTrends can be seen by running this command.
 help(package="WeatheringTrends")
 
