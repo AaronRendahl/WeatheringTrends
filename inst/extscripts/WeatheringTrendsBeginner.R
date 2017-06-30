@@ -28,19 +28,26 @@ library(WeatheringTrends) # load package once per R session
 library(ggplot2) # load package once per R session
 
 ################ Import Data File ################
-# If your working directory is ~/WeatheringTrends/, you may import the data file by selecting
-# the command below.
-# To find (or confirm) your working directory use the following command:
+
+# First, we will copy the sample data file from the package to the current directory.
+# To first find (or confirm) your working directory use the following command.
 getwd()
 
+# This command will copy the sample data file (WTexampleLP.csv) from the package to
+# your R project. If you open the project later, this command need not be rerun, and
+# in fact, if the file already exists, will not copy over it.
+file.copy(system.file(package="WeatheringTrends", "extdata", "WTexampleLP.csv"), ".")
+
 # This command will import the data file into R.
-WTexampleLP <- read.csv("~/WeatheringTrends/inst/extdata/WTexampleLP.csv")
+WTexampleLP <- read.csv("WTexampleLP.csv")
+
 # This command will open the data set for viewing; by default it will appear in the same
 # pane as this script. After you view the file, use the tabs at the top of the pane to
 # navigate back to this file.
 View(WTexampleLP)
 
-# If your working directory is not ~/WeatheringTrends/, you can modify the path above or
+# If the file you want to import is not in the current directory, you can specify a
+# full path to the read.csv command, or you can
 # import data from the menu: File > Import Dataset > From CSV to select your data file.
 # This will open a dialogue box where you select "Browse" and navigate through your file system
 # to select the data file. In the dialogue box, check the following options:
