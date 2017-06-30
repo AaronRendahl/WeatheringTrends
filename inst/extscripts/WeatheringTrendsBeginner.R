@@ -9,9 +9,11 @@
 
 # This tutorial assumes you have already installed the R, RStudio, ggplot2, and
 # Weathering Trends packages. If not, see supplementary material for Fisher et al.,
-# 2017 or explore the Weathering Trends documentation at
-# https://github.com/fisherba/WeatheringTrends/tree/master/inst
+# 2017 or view a tutorial for first-time R users at
+# http://htmlpreview.github.io/?https://github.com/fisherba/WeatheringTrends/blob/master/inst/doc/WeatheringTrendsBeginnerR.html
 # or if you have R and Weathering Trends installed, by running this command.
+vignette("WeatheringTrendsBeginnerR", package="WeatheringTrends")
+# Links to all documentation for WeatheringTrends can be seen by running this command.
 help(package="WeatheringTrends")
 
 ################ Load Necessary Packages ################
