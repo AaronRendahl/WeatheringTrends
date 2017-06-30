@@ -3,7 +3,7 @@
 # you will select multiple lines of script at one time. If the line contains
 # a hash (#), all text to the right of the hash is "comment" and will not run
 # as script. The script will run in a separate window, called "Console", which
-# should a visible window in RStudio. The console will show you which scripts have
+# should be a visible window in RStudio. The console will show you which scripts have
 # been run and will sometimes monitor progress (depending on the script) and will
 # display error messages, if any.
 
@@ -20,12 +20,12 @@ help(package="WeatheringTrends")
 # 2) or place your cursor at the end of the script line and press the "Run" button
 # 3) or do either of the above and instead of pressing the "Run" button you may
 # press Command-Enter (Macs) or Control-Enter (Windows).
-library(WeatheringTrends) # open package once per R session
+library(WeatheringTrends) # load package once per R session
 # This will not produce a response in the console window. In this case, no news is good news.
 # If you have a new empty prompt ">", then the package loaded correctly.
 
 # As above, load ggplot2, which is a package that helps make nice plots.
-library(ggplot2) # open package once per R session
+library(ggplot2) # load package once per R session
 
 ################ Import Data File ################
 # If your working directory is ~/WeatheringTrends/, you may import the data file by selecting
@@ -36,7 +36,8 @@ getwd()
 # This command will import the data file into R.
 WTexampleLP <- read.csv("~/WeatheringTrends/inst/extdata/WTexampleLP.csv")
 # This command will open the data set for viewing; by default it will appear in the same
-# pane as this script. After you view the file, use the tabs to navigate back to this file.
+# pane as this script. After you view the file, use the tabs at the top of the pane to
+# navigate back to this file.
 View(WTexampleLP)
 
 # If your working directory is not ~/WeatheringTrends/, you can modify the path above or
@@ -204,9 +205,10 @@ plot(TiO2 ~ Nb_ppm, data=well1)
 abline(lm(TiO2 ~ Nb_ppm, data=well1))
 # output correlation and p value
 cor.test(~ TiO2 + Nb_ppm, data=well1)
-# to get n, this removes any missing values before counting
+# to get n, this counts how many are non-missing
 sum(complete.cases(well1[c("TiO2", "Nb_ppm")]))
 
+# another Pearson correlation example
 plot(Zr_ppm ~ Hf_ppm, data=well1)
 abline(lm(Zr_ppm ~ Hf_ppm, data=well1))
 cor.test(~ Zr_ppm + Hf_ppm, data=well1)
@@ -220,10 +222,9 @@ mean(well1$Nb_ppm) # mean of element Nb, you may skip this step
 # coefficient of variation of element Nb is a computation using two codes above
 well1immobile$s.overall/mean(well1$Nb_ppm)*100
 
-## immobile element Coefficient of Variation (CV)
+## another immobile element Coefficient of Variation (CV) example
 # Well 2, element Nb
 well2immobile <- FitElementRatio("Nb_ppm", "one", "voBottom", well2)
 well2immobile$s.overall
 mean(well2$Nb_ppm)
-## coefficient of variation of immobile
 well2immobile$s.overall/mean(well2$Nb_ppm)*100
