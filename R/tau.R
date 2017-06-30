@@ -23,7 +23,7 @@ FitTau <- function(mobile, immobile, depth, data, cutoff, verbose=FALSE) {
   if(verbose) message("fitting ", paste0(name.mobile, "/", name.immobile))
   dat <- data[,c(depth, mobile, immobile)]
   names(dat) <- c("depth", "mobile", "immobile")
-  dat <- dat[complete.cases(dat),]
+  dat <- dat[stats::complete.cases(dat),]
   ratio <- with(dat, mobile/immobile)
   mm <- with(dat, mean(mobile[depth>=cutoff])/mean(immobile[depth>=cutoff]))
   tau <- ratio/mm - 1
@@ -110,8 +110,8 @@ plot.Tau <- function(x, xlim=NULL, ylim=NULL, main=paste0(x$mobile, "/", x$immob
 #' @param ... additional parameters sent to the individual plots
 #' @export
 plot.Taus <- function(x, scales=c("same", "free"), ...) {
-  op <- par("mfrow", "mar")
-  on.exit(par(op))
+  op <- graphics::par("mfrow", "mar")
+  on.exit(graphics::par(op))
   scales <- match.arg(scales)
   nm <- length(x)
   ni <- length(x[[1]])

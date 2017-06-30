@@ -14,6 +14,8 @@
 
 \item{scales}{set axis width; sliced will use same width for all plots, but allow for shifting as needed, free will set each plot differently}
 
+\item{mar}{set margins of output plot; default is c(2.5, 2.5, 2, 0)}
+
 \item{...}{additional parameters sent to the individual plots}
 }
 \description{
