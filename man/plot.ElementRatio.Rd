@@ -6,8 +6,8 @@
 \usage{
 \method{plot}{ElementRatio}(x, morelines = NULL, sd = 1,
   main = paste0(x$mobile, "/", x$immobile), rotate = TRUE, log = TRUE,
-  ci.lty = 3, range = NA, responselabel = if (log) "logratio" else
-  "ratio", ...)
+  ci.lty = 3, range = NA, responselabel = if (log) sprintf("log(\%s/\%s)",
+  x$mobile, x$immobile) else paste0(x$mobile, "/", x$immobile), ...)
 }
 \arguments{
 \item{x}{object}

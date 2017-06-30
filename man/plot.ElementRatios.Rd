@@ -5,7 +5,7 @@
 \title{plot an ElementRatios object}
 \usage{
 \method{plot}{ElementRatios}(x, morelines = NULL, scales = c("sliced",
-  "free"), ...)
+  "free"), mar = c(2.5, 2.5, 2, 0), ...)
 }
 \arguments{
 \item{x}{the object}
