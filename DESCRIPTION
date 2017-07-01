@@ -1,6 +1,6 @@
 Package: WeatheringTrends
 Title: Fits Weathering Trends
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(person("Aaron", "Rendahl", email = "rend0020@umn.edu", role = c("aut")),
              person("Beth", "Fisher", email = "fisherba@umn.edu", role=c("aut", "cre")))
 Description: Fits Weathering Trends.
